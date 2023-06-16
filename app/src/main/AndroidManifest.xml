@@ -13,6 +13,18 @@
         android:theme="@style/Theme.670GroupProject"
         tools:targetApi="31">
         <activity
+            android:name=".StatsPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AboutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

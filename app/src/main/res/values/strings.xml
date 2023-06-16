@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">670GroupProject</string>
+    <string name="login_text">Login</string>
+    <string name="login_message">Login Name</string>
+    <string name="password_text">Password</string>
+    <string name="loginButton">login</string>
+    <string name="preference_name">my_shared_preferences</string>
+    <string name="key_email">email</string>
+    <string name="loginError">Please enter a properly formatted email and a non-blank password</string>
+    <string name="ok">ok</string>
 </resources>
