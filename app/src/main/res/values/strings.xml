@@ -1,11 +1,22 @@
 <resources>
     <string name="app_name">670GroupProject</string>
-    <string name="login_text">Login</string>
-    <string name="login_message">Login Name</string>
-    <string name="password_text">Password</string>
-    <string name="loginButton">login</string>
-    <string name="preference_name">my_shared_preferences</string>
-    <string name="key_email">email</string>
+
     <string name="loginError">Please enter a properly formatted email and a non-blank password</string>
     <string name="ok">ok</string>
+
+    <!-- Login Page -->
+    <string name="loginActivityTextViewLogin">Login</string>
+    <string name="loginActivityEditTextHintLogin">Login Name</string>
+    <string name="loginActivityTextViewPassword">Password</string>
+    <string name="loginActivityCheckboxRememberMe">Remember Me</string>
+    <string name="loginActivityButtonLogin">login</string>
+    <string name="loginActivityButtonRegister">register</string>
+    <!-- Registration Page -->
+    <string name="registerActivityTextViewLoginText">Enter Email Address</string>
+    <string name="registerActivityEditTextEmailAddress">Email Address</string>
+    <string name="registerActivityTextViewPassword">Enter Password</string>
+    <string name="registerActivityEditTextPassword">Password</string>
+    <string name="registerActivityTextViewRePassword">Re Enter Password</string>
+    <string name="registerActivityEditTextRePassword">Re Password</string>
+    <string name="registerActivityButtonRegister">Register Account</string>
 </resources>

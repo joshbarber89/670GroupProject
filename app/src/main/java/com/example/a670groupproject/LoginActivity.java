@@ -7,9 +7,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.content.SharedPreferences;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.view.View;
 import android.content.Intent;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -21,53 +24,95 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Log.i(tag, "onCreate function has been called");
 
-        //helper method
         loadUserData();
+
+        Button loginButton = (Button) findViewById(R.id.loginActivityButtonLogin);
+        Button registerButton = (Button) findViewById(R.id.loginActivityButtonRegister);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String emailAddress = ((EditText) findViewById(R.id.loginActivityEditTextEmailAddress)).getText().toString();
+                String password = ((EditText) findViewById(R.id.loginActivityEditTextPassword)).getText().toString();
+
+                if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()
+                                && !password.matches("")
+                ) {
+                    CheckBox rememberMeCheckBox = (CheckBox) findViewById(R.id.loginActivityCheckboxRememberMe);
+                    SharedPreferences mPrefs = getSharedPreferences("loginPreferences", MODE_PRIVATE);
+                    SharedPreferences.Editor myEditor = mPrefs.edit();
+                    myEditor.clear();
+
+                    if (rememberMeCheckBox.isChecked()) {
+                        myEditor.putString("rememberMe", "true");
+                        myEditor.putString("email", emailAddress);
+                        myEditor.putString("password", password);
+
+                    } else {
+                        myEditor.putString("rememberMe", "false");
+                    }
+
+                    myEditor.apply();
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    builder.setTitle(R.string.loginError); // Text
+
+                    // Add the buttons
+                    builder.setPositiveButton(R.string.ok, new /*positive Button*/
+                            DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id){
+                                    // User clicked OK button
+                                }
+                            });
+                    AlertDialog dialog = builder.create();
+
+                    dialog.show();
+                }
+            }
+        });
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent registerIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivityForResult(registerIntent, 1);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Log.i(tag, "Returned to MainActivity.onActivityResult");
+            String messagePassed = data.getStringExtra("Response");
+            if (messagePassed != null && !messagePassed.equals("")) {
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(this, messagePassed, duration);
+                toast.show();
+            }
+        }
     }
 
     private void loadUserData() {
-        String preference_file_name = getString(R.string.preference_name);
-        SharedPreferences mPrefs = getSharedPreferences(preference_file_name, MODE_PRIVATE);
-        String  email_key = getString(R.string.key_email);
-        String new_email_value = mPrefs.getString(email_key, "email@domain.com");
-        ((EditText) findViewById(R.id.login_name)).setText(new_email_value);
-    }
+        CheckBox rememberMeCheckBox = (CheckBox) findViewById(R.id.loginActivityCheckboxRememberMe);
+        SharedPreferences mPrefs = getSharedPreferences("loginPreferences", MODE_PRIVATE);
+        String rememberMeString = mPrefs.getString("rememberMe", "false");
+        boolean rememberMe = rememberMeString.equals("true");
 
-    public void onLoginClicked(View v){
-        String new_email_entered = ((EditText) findViewById(R.id.login_name)).getText().toString();
-        String password_entered = ((EditText) findViewById(R.id.password)).getText().toString();
+        rememberMeCheckBox.setChecked(rememberMe);
 
-        if (android.util.Patterns.EMAIL_ADDRESS.matcher(new_email_entered).matches()==true && password_entered.matches("")==false)
-        {
-            String file_name = getString(R.string.preference_name);
-            SharedPreferences mPrefs = getSharedPreferences(file_name, MODE_PRIVATE);
+        if (rememberMe) {
+            String emailAddress = mPrefs.getString("email", "email@domain.com");
+            String password = mPrefs.getString("password", "");
+            ((EditText) findViewById(R.id.loginActivityEditTextEmailAddress)).setText(emailAddress);
+            ((EditText) findViewById(R.id.loginActivityEditTextPassword)).setText(password);
+        } else {
             SharedPreferences.Editor myEditor = mPrefs.edit();
             myEditor.clear();
-            String email_key  = getString(R.string.key_email);
-            myEditor.putString(email_key, new_email_entered);
-            myEditor.commit();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+            myEditor.putString("rememberMe", "false");
+            myEditor.apply();
         }
-        else
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.loginError); // Text
-
-            // Add the buttons
-            builder.setPositiveButton(R.string.ok, new /*positive Button*/
-                    DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id){
-                            // User clicked OK button
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-
-            dialog.show();
-        }
-
-
     }
-
-
 }

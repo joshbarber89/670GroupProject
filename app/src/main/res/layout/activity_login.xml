@@ -2,7 +2,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,33 +11,44 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_text" />
+        android:text="@string/loginActivityTextViewLogin" />
 
     <EditText
-        android:id="@+id/login_name"
+        android:id="@+id/loginActivityEditTextEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/login_message"
+        android:hint="@string/loginActivityEditTextHintLogin"
         android:inputType="textEmailAddress" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/password_text" />
+        android:text="@string/loginActivityTextViewPassword" />
 
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/loginActivityEditTextPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"/>
 
-    <Button
-        android:id="@+id/login_button"
+
+    <CheckBox
+        android:id="@+id/loginActivityCheckboxRememberMe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/loginButton"
-        android:onClick="onLoginClicked" />/>
+        android:text="@string/loginActivityCheckboxRememberMe" />
+
+    <Button
+        android:id="@+id/loginActivityButtonLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/loginActivityButtonLogin" />
+    <Button
+        android:id="@+id/loginActivityButtonRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/loginActivityButtonRegister"/>
 
 </LinearLayout>
 
