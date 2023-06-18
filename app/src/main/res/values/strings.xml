@@ -19,4 +19,5 @@
     <string name="registerActivityTextViewRePassword">Re Enter Password</string>
     <string name="registerActivityEditTextRePassword">Re Password</string>
     <string name="registerActivityButtonRegister">Register Account</string>
+    <string name="registerActivityButtonBack">Back</string>
 </resources>
