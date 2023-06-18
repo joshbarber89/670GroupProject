@@ -1,9 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity">
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:orientation="vertical"
+    android:background="@color/lightGreen">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settingsActivityTextViewTitle"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settingsActivityTextViewBloodSugarLevelUnits"
+        android:textSize="20sp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/bloodSugarRadio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/settingsActivityTextViewBloodSugarLevelUnits1st" />
+
+        <RadioButton
+            android:id="@+id/bloodSugarRadio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/settingsActivityTextViewBloodSugarLevelUnits2nd" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settingsActivityTextViewBloodInsulinLevelUnits"
+        android:textSize="20sp" />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/insulinRadio1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/settingsActivityTextViewBloodInsulinLevelUnits1st" />
+
+        <RadioButton
+            android:id="@+id/insulinRadio2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onRadioButtonClicked"
+            android:text="@string/settingsActivityTextViewBloodInsulinLevelUnits2nd" />
+    </RadioGroup>
+    <Switch
+        android:id="@+id/musicSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:gravity="fill"
+        android:text="@string/playRelaxingMusic" />
+
+</LinearLayout>

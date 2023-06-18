@@ -20,4 +20,13 @@
     <string name="registerActivityEditTextRePassword">Re Password</string>
     <string name="registerActivityButtonRegister">Register Account</string>
     <string name="registerActivityButtonBack">Back</string>
+    <!-- Settings Page -->
+    <string name="settingsActivityTextViewTitle">Settings</string>
+    <string name="settingsActivityTextViewBloodSugarLevelUnits">Blood Sugar Level Units</string>
+    <string name="settingsActivityTextViewBloodSugarLevelUnits1st">mmol/L</string>
+    <string name="settingsActivityTextViewBloodSugarLevelUnits2nd">mg/dL</string>
+    <string name="settingsActivityTextViewBloodInsulinLevelUnits">Blood Insulin Level Units</string>
+    <string name="settingsActivityTextViewBloodInsulinLevelUnits1st">IU/mL</string>
+    <string name="settingsActivityTextViewBloodInsulinLevelUnits2nd">pmol/L</string>
+    <string name="playRelaxingMusic">Play Relaxing Music: </string>
 </resources>
