@@ -24,6 +24,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Log.i(tag, "onCreate function has been called");
 
+        DBHelper DB = new DBHelper(this);
+
         loadUserData();
 
         Button loginButton = (Button) findViewById(R.id.loginActivityButtonLogin);
@@ -53,22 +55,18 @@ public class LoginActivity extends AppCompatActivity {
 
                     myEditor.apply();
 
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    if (DB.checkUsernameAndPassword(emailAddress, password)) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(getApplicationContext(), "Incorrect login", duration);
+                        toast.show();
+                    }
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                    builder.setTitle(R.string.loginError); // Text
-
-                    // Add the buttons
-                    builder.setPositiveButton(R.string.ok, new /*positive Button*/
-                            DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id){
-                                    // User clicked OK button
-                                }
-                            });
-                    AlertDialog dialog = builder.create();
-
-                    dialog.show();
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(getApplicationContext(), "Incorrect login", duration);
+                    toast.show();
                 }
             }
         });
