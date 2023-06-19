@@ -29,4 +29,14 @@
     <string name="settingsActivityTextViewBloodInsulinLevelUnits1st">IU/mL</string>
     <string name="settingsActivityTextViewBloodInsulinLevelUnits2nd">pmol/L</string>
     <string name="playRelaxingMusic">Play Relaxing Music: </string>
+    <!-- About Me -->
+    <string name="aboutMe">
+        This application is created by Darryl Bedford, Josh Barber, Ali Himada, Vision Paudel, and Fraser Gray-Smith\n
+        This is version number 0.1\n
+        Make sure you register before trying to login! Once you are in, start adding your diary entries. Use the toolbar at the top for cool stats and settings.</string>
+    <!-- Stats -->
+    <string name="statsEatingCheck">Show Eating Checkpoints Over Time</string>
+    <string name="statsMedicationCheck">Show Medication Over Time</string>
+    <string name="statsExerciseCheck">Show Exercise Over Time</string>
+    <string name="statsBloodSugarCheck">Show Blood Sugar Levels Over Time</string>
 </resources>
