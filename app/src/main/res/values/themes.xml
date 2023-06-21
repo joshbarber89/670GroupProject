@@ -6,4 +6,6 @@
     </style>
 
     <style name="Theme.670GroupProject" parent="Base.Theme.670GroupProject" />
+
+    <style name="Theme.670GroupProject.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
