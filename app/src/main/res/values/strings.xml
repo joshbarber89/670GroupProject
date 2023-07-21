@@ -29,6 +29,7 @@
     <string name="settingsActivityTextViewBloodInsulinLevelUnits1st">IU/mL</string>
     <string name="settingsActivityTextViewBloodInsulinLevelUnits2nd">pmol/L</string>
     <string name="playRelaxingMusic">Play Relaxing Music: </string>
+    <string name="settingsActivityButtonLogout">Logout</string>
     <!-- About Me -->
     <string name="aboutMe">
         This application is created by Darryl Bedford, Josh Barber, Ali Himada, Vision Paudel, and Fraser Gray-Smith\n

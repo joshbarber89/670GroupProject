@@ -1,9 +1,7 @@
 package com.example.a670groupproject;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.content.SharedPreferences;
@@ -18,13 +16,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public static final String tag = "LoginActivity";
 
+    private static DBHelper DB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Log.i(tag, "onCreate function has been called");
 
-        DBHelper DB = new DBHelper(this);
+        DB = new DBHelper(this);
 
         loadUserData();
 
@@ -40,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
                                 && !password.matches("")
                 ) {
                     CheckBox rememberMeCheckBox = (CheckBox) findViewById(R.id.loginActivityCheckboxRememberMe);
-                    SharedPreferences mPrefs = getSharedPreferences("loginPreferences", MODE_PRIVATE);
-                    SharedPreferences.Editor myEditor = mPrefs.edit();
+                    SharedPreferences loginPrefs = getSharedPreferences("loginPreferences", MODE_PRIVATE);
+                    SharedPreferences.Editor myEditor = loginPrefs.edit();
                     myEditor.clear();
 
                     if (rememberMeCheckBox.isChecked()) {
@@ -55,14 +54,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     myEditor.apply();
 
-                    if (DB.checkUsernameAndPassword(emailAddress, password)) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    } else {
-                        int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(getApplicationContext(), "Incorrect login", duration);
-                        toast.show();
-                    }
+                    loginProcess(emailAddress, password);
+
                 } else {
                     int duration = Toast.LENGTH_SHORT;
                     Toast toast = Toast.makeText(getApplicationContext(), "Incorrect login", duration);
@@ -95,22 +88,44 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loadUserData() {
         CheckBox rememberMeCheckBox = (CheckBox) findViewById(R.id.loginActivityCheckboxRememberMe);
-        SharedPreferences mPrefs = getSharedPreferences("loginPreferences", MODE_PRIVATE);
-        String rememberMeString = mPrefs.getString("rememberMe", "false");
-        boolean rememberMe = rememberMeString.equals("true");
+        SharedPreferences loginPrefs = getSharedPreferences("loginPreferences", MODE_PRIVATE);
+        String rememberMeString = loginPrefs.getString("rememberMe", "false");
+        String loggedOutString = loginPrefs.getString("loggedOut", "false");
 
+        boolean rememberMe = rememberMeString.equals("true");
+        boolean loggedOut = loggedOutString.equals("true");
         rememberMeCheckBox.setChecked(rememberMe);
 
-        if (rememberMe) {
-            String emailAddress = mPrefs.getString("email", "email@domain.com");
-            String password = mPrefs.getString("password", "");
+        String emailAddress = loginPrefs.getString("email", "email@domain.com");
+        String password = loginPrefs.getString("password", "");
+
+        if (loggedOut) {
             ((EditText) findViewById(R.id.loginActivityEditTextEmailAddress)).setText(emailAddress);
             ((EditText) findViewById(R.id.loginActivityEditTextPassword)).setText(password);
+        } else if (rememberMe) {
+            loginProcess(emailAddress, password);
         } else {
-            SharedPreferences.Editor myEditor = mPrefs.edit();
+            SharedPreferences.Editor myEditor = loginPrefs.edit();
             myEditor.clear();
             myEditor.putString("rememberMe", "false");
             myEditor.apply();
+        }
+    }
+
+    private void loginProcess(String emailAddress, String password) {
+        if (DB.checkUsernameAndPassword(emailAddress, password)) {
+
+            SharedPreferences userPrefs = getSharedPreferences("userPreferences", MODE_PRIVATE);
+            SharedPreferences.Editor myEditor = userPrefs.edit();
+            myEditor.putString("emailAddress", emailAddress);
+            myEditor.apply();
+
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        } else {
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(getApplicationContext(), "Incorrect login", duration);
+            toast.show();
         }
     }
 }
