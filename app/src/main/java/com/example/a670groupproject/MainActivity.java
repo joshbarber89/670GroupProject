@@ -17,9 +17,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
+    EditText dateText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,79 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+
+        Button foodButton = (Button) findViewById(R.id.foodButton);
+        Button medicationButton = (Button) findViewById(R.id.medicationButton);
+        Button exerciseButton = (Button) findViewById(R.id.exerciseButton);
+        Button bloodSugarButton = (Button) findViewById(R.id.bloodSugarButton);
+        Button insulinButton = (Button) findViewById(R.id.insulinButton);
+
+
+        foodButton.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                   dateText = (EditText)findViewById(R.id.editTextDate);
+                   String date = dateText.getText().toString();
+                   FoodFragment foodFragment = FoodFragment.newInstance(date,"");
+                   FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                   ft.replace(R.id.flContainer,foodFragment);
+                   ft.commit();
+               }
+           }
+        );
+
+        medicationButton.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  dateText = (EditText)findViewById(R.id.editTextDate);
+                  String date = dateText.getText().toString();
+                  MedicationFragment medicationFragment = MedicationFragment.newInstance(date,"");
+                  FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                  ft.replace(R.id.flContainer,medicationFragment);
+                  ft.commit();
+              }
+          }
+        );
+
+        exerciseButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dateText = (EditText)findViewById(R.id.editTextDate);
+                    String date = dateText.getText().toString();
+                    ExerciseFragment exerciseFragment = ExerciseFragment.newInstance(date,"");
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.flContainer,exerciseFragment);
+                    ft.commit();
+                }
+            }
+        );
+
+        bloodSugarButton.setOnClickListener(new View.OnClickListener() {
+                                              @Override
+                  public void onClick(View v) {
+                      dateText = (EditText)findViewById(R.id.editTextDate);
+                      String date = dateText.getText().toString();
+                      BloodSugarFragment bloodSugarFragment = BloodSugarFragment.newInstance(date,"");
+                      FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                      ft.replace(R.id.flContainer,bloodSugarFragment);
+                      ft.commit();
+                  }
+              }
+        );
+
+        insulinButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dateText = (EditText)findViewById(R.id.editTextDate);
+                    String date = dateText.getText().toString();
+                    InsulinFragment insulinFragment = InsulinFragment.newInstance(date,"");
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.flContainer,insulinFragment);
+                    ft.commit();
+                }
+            }
+        );
+
 
     }
 

@@ -13,6 +13,9 @@
         android:theme="@style/Theme.670GroupProject"
         tools:targetApi="31">
         <activity
+            android:name=".AddBloodSugarActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
@@ -50,7 +53,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

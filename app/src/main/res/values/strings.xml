@@ -40,4 +40,13 @@
     <string name="statsMedicationCheck">Show Medication Over Time</string>
     <string name="statsExerciseCheck">Show Exercise Over Time</string>
     <string name="statsBloodSugarCheck">Show Blood Sugar Levels Over Time</string>
+
+    <string name="foodButtonText">Food</string>
+    <string name="medicationButtonText">Medication</string>
+    <string name="exerciseButtonText">Exercise</string>
+    <string name="bloodSugarButtonText">Blood Sugar</string>
+    <string name="insulinButtonText">Insulin</string>
+    <string name="addNewEntryButtonText">Add New Entry</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
