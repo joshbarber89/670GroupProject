@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.FragmentTransaction;
@@ -29,15 +30,57 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.a670groupproject.databinding.ActivityMainBinding;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
+    String selected;
+
     EditText dateText;
+    EditText monthText;
+    EditText yearText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Calendar cal = Calendar.getInstance();
+        cal.getTime();
+        int yearInt = cal.get(Calendar.YEAR);
+        int monthInt = cal.get(Calendar.MONTH);
+        int dayInt = cal.get(Calendar.DAY_OF_MONTH);
+
+        String currentYear = Integer.toString(yearInt);
+        String currentMonth;
+        String currentDay;
+
+        if (monthInt<10)
+        {
+            currentMonth = "0"+Integer.toString(monthInt);
+        }
+        else
+        {
+            currentMonth = Integer.toString(monthInt);
+        }
+
+        if (dayInt<10)
+        {
+            currentDay = "0"+Integer.toString(dayInt);
+        }
+        else
+        {
+            currentDay = Integer.toString(dayInt);
+        }
+
+        Log.d("main", "Current date is "+currentDay+"-"+currentMonth+"-"+currentYear);
+
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -49,14 +92,30 @@ public class MainActivity extends AppCompatActivity {
         Button exerciseButton = (Button) findViewById(R.id.exerciseButton);
         Button bloodSugarButton = (Button) findViewById(R.id.bloodSugarButton);
         Button insulinButton = (Button) findViewById(R.id.insulinButton);
+        Button addEntry = (Button) findViewById(R.id.addEntryButton);
+
+
+        dateText = (EditText)findViewById(R.id.editTextDate);
+        dateText.setText(currentDay);
+        monthText = (EditText)findViewById(R.id.editTextMonth);
+        monthText.setText(currentMonth);
+        yearText = (EditText)findViewById(R.id.editTextYear);
+        yearText.setText(currentYear);
+
+        selected = "Food";
 
 
         foodButton.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
+                   selected = "Food";
                    dateText = (EditText)findViewById(R.id.editTextDate);
-                   String date = dateText.getText().toString();
-                   FoodFragment foodFragment = FoodFragment.newInstance(date,"");
+                   monthText = (EditText)findViewById(R.id.editTextMonth);
+                   yearText = (EditText)findViewById(R.id.editTextYear);
+                   String day = dateText.getText().toString();
+                   String month = monthText.getText().toString();
+                   String year = yearText.getText().toString();
+                   FoodFragment foodFragment = FoodFragment.newInstance(day, month,year);
                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                    ft.replace(R.id.flContainer,foodFragment);
                    ft.commit();
@@ -67,9 +126,14 @@ public class MainActivity extends AppCompatActivity {
         medicationButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
+                  selected = "Medication";
                   dateText = (EditText)findViewById(R.id.editTextDate);
-                  String date = dateText.getText().toString();
-                  MedicationFragment medicationFragment = MedicationFragment.newInstance(date,"");
+                  monthText = (EditText)findViewById(R.id.editTextMonth);
+                  yearText = (EditText)findViewById(R.id.editTextYear);
+                  String day = dateText.getText().toString();
+                  String month = monthText.getText().toString();
+                  String year = yearText.getText().toString();
+                  MedicationFragment medicationFragment = MedicationFragment.newInstance(day, month,year);
                   FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                   ft.replace(R.id.flContainer,medicationFragment);
                   ft.commit();
@@ -80,9 +144,14 @@ public class MainActivity extends AppCompatActivity {
         exerciseButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    selected = "Exercise";
                     dateText = (EditText)findViewById(R.id.editTextDate);
-                    String date = dateText.getText().toString();
-                    ExerciseFragment exerciseFragment = ExerciseFragment.newInstance(date,"");
+                    monthText = (EditText)findViewById(R.id.editTextMonth);
+                    yearText = (EditText)findViewById(R.id.editTextYear);
+                    String day = dateText.getText().toString();
+                    String month = monthText.getText().toString();
+                    String year = yearText.getText().toString();
+                    ExerciseFragment exerciseFragment = ExerciseFragment.newInstance(day, month,year);
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer,exerciseFragment);
                     ft.commit();
@@ -91,11 +160,16 @@ public class MainActivity extends AppCompatActivity {
         );
 
         bloodSugarButton.setOnClickListener(new View.OnClickListener() {
-                                              @Override
+                  @Override
                   public void onClick(View v) {
+                      selected = "BloodSugar";
                       dateText = (EditText)findViewById(R.id.editTextDate);
-                      String date = dateText.getText().toString();
-                      BloodSugarFragment bloodSugarFragment = BloodSugarFragment.newInstance(date,"");
+                      monthText = (EditText)findViewById(R.id.editTextMonth);
+                      yearText = (EditText)findViewById(R.id.editTextYear);
+                      String day = dateText.getText().toString();
+                      String month = monthText.getText().toString();
+                      String year = yearText.getText().toString();
+                      BloodSugarFragment bloodSugarFragment = BloodSugarFragment.newInstance(day, month,year);
                       FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                       ft.replace(R.id.flContainer,bloodSugarFragment);
                       ft.commit();
@@ -106,9 +180,14 @@ public class MainActivity extends AppCompatActivity {
         insulinButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    selected = "Insulin";
                     dateText = (EditText)findViewById(R.id.editTextDate);
-                    String date = dateText.getText().toString();
-                    InsulinFragment insulinFragment = InsulinFragment.newInstance(date,"");
+                    monthText = (EditText)findViewById(R.id.editTextMonth);
+                    yearText = (EditText)findViewById(R.id.editTextYear);
+                    String day = dateText.getText().toString();
+                    String month = monthText.getText().toString();
+                    String year = yearText.getText().toString();
+                    InsulinFragment insulinFragment = InsulinFragment.newInstance(day, month,year);
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.flContainer,insulinFragment);
                     ft.commit();
@@ -116,6 +195,37 @@ public class MainActivity extends AppCompatActivity {
             }
         );
 
+        addEntry.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                    Intent startNewActivity;
+                    switch (selected)
+                    {
+                        case "Food":
+                            Log.d("main", "starting add food");
+                            //start 'add food' activity
+                            break;
+                        case "Medication":
+                            Log.d("main", "starting add medication");
+                            //start 'add medication' activity
+                            break;
+                        case "Exercise":
+                            Log.d("main", "starting add exercise");
+                            //start 'add exercise' activity
+                            break;
+                        case "BloodSugar":
+                            Log.d("main", "starting add blood sugar");
+                            startNewActivity = new Intent(getBaseContext(), AddBloodSugarActivity.class);
+                            startActivityForResult(startNewActivity,10);
+                            break;
+                        case "Insulin":
+                            Log.d("main", "starting add insulin");
+                            //start 'add insulin' activity
+                            break;
+                    }
+                 }
+             }
+        );
 
     }
 

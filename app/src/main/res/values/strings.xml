@@ -47,6 +47,13 @@
     <string name="bloodSugarButtonText">Blood Sugar</string>
     <string name="insulinButtonText">Insulin</string>
     <string name="addNewEntryButtonText">Add New Entry</string>
+
+    <string name="customValidationError">Error: Please enter in valid data</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="am_pm_spinner_values">
+        <item>AM</item>
+        <item>PM</item>
+    </string-array>
 </resources>

@@ -19,10 +19,12 @@ public class FoodFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM3 = "param3";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String mParam3;
 
     public FoodFragment() {
         // Required empty public constructor
@@ -37,11 +39,12 @@ public class FoodFragment extends Fragment {
      * @return A new instance of fragment FoodFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FoodFragment newInstance(String param1, String param2) {
+    public static FoodFragment newInstance(String param1, String param2, String param3) {
         FoodFragment fragment = new FoodFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM3, param3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,6 +55,7 @@ public class FoodFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam2 = getArguments().getString(ARG_PARAM3);
         }
     }
 
