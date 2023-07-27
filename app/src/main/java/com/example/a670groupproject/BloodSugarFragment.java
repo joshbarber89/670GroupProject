@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -97,6 +98,31 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
         EntryAdapter entryAdapter = new EntryAdapter(getActivity());
         bloodSugarList = (ListView) view.findViewById(R.id.bloodSugarList);
         bloodSugarList.setAdapter(entryAdapter);
+
+        bloodSugarList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("Blood Sugar Fragment", "item clicked at position: "+i);
+                String[] entryString = entryArray.get(i);
+                String entryID = entryString[0];
+                String entryValue = entryString[1];
+                String entryHour = entryString[2];
+                String entryMinute = entryString[3];
+                String amPM = entryString[4];
+                Intent startNewActivity = new Intent(getActivity().getBaseContext(), UpdateBloodSugarActivity.class);
+                startNewActivity.putExtra("entryID", entryID);
+                startNewActivity.putExtra("entryValue", entryValue);
+                startNewActivity.putExtra("entryHour", entryHour);
+                startNewActivity.putExtra("entryMinute", entryMinute);
+                startNewActivity.putExtra("amPM", amPM);
+                startNewActivity.putExtra("entryDay", mParam1);
+                startNewActivity.putExtra("entryMonth", mParam2);
+                startNewActivity.putExtra("entryYear", mParam3);
+                startActivityForResult(startNewActivity,10);
+            }
+        });
+
+
         return view;
     }
 

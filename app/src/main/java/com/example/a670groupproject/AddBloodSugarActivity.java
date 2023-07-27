@@ -125,12 +125,14 @@ public class AddBloodSugarActivity extends AppCompatActivity implements AdapterV
                   bloodSugarYear = (EditText)findViewById(R.id.bloodSugarYear);
                   bloodSugarHour = (EditText)findViewById(R.id.bloodSugarHour);
                   bloodSugarMinute = (EditText)findViewById(R.id.bloodSugarMinute);
+                  Spinner spinner = (Spinner) findViewById(R.id.amPMSelector);
                   String value = bloodSugarReading.getText().toString();
                   String day = bloodSugarDay.getText().toString();
                   String month = bloodSugarMonth.getText().toString();
                   String year = bloodSugarYear.getText().toString();
                   String hour = bloodSugarHour.getText().toString();
                   String minute = bloodSugarMinute.getText().toString();
+                  String amPMValue = spinner.getSelectedItem().toString();
                   Boolean inputValid = inputValidationBloodSugar(day, month, year, hour, minute, value);
                   if (inputValid ==true)
                   {

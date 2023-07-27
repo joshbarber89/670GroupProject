@@ -46,8 +46,10 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("yearEntry", Integer.parseInt(yearEntry));
         contentValues.put("hourEntry", Integer.parseInt(hourEntry));
         contentValues.put("minuteEntry", Integer.parseInt(minuteEntry));
-        if (amPM=="AM")
+        Log.d("DB Helper", "amPM Value: "+amPM);
+        if (amPM.equals("AM"))
         {
+            Log.d("DB Helper", "Inserting AM Value");
             if (Integer.parseInt(hourEntry)==12)
             {
                 contentValues.put("twentyFourHour", 0);
@@ -57,8 +59,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 contentValues.put("twentyFourHour",  Integer.parseInt(hourEntry));
             }
         }
-        if (amPM=="PM")
+        if (amPM.equals("PM"))
         {
+            Log.d("DB Helper", "Inserting PM Value");
             if (Integer.parseInt(hourEntry)==12)
             {
                 contentValues.put("twentyFourHour", Integer.parseInt(hourEntry));
@@ -80,7 +83,7 @@ public class DBHelper extends SQLiteOpenHelper {
         Log.d("DB Helper", "Getting records from table "+tableName+" for date "+dayEntry+"-"+monthEntry+"-"+yearEntry);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ArrayList<String[]> resultList = new ArrayList<String[]>();
-        String query = "select entryID, entryValue, hourEntry, minuteEntry, twentyFourHour from "+tableName+" where visibleEntry=1 and dayEntry ='"+dayEntry+"' and monthEntry = '"+monthEntry+"' and yearEntry = '"+yearEntry+"' order by twentyFourHour, minuteEntry";
+        String query = "select entryID, entryValue, hourEntry, minuteEntry, twentyFourHour from "+tableName+" where visibleEntry=1 and dayEntry ='"+dayEntry+"' and monthEntry = '"+monthEntry+"' and yearEntry = '"+yearEntry+"' order by twentyFourHour asc, minuteEntry asc";
         Log.d("DB Helper", "Running Query: "+query);
         Cursor c = sqLiteDatabase.rawQuery(query, null);
         Log.d("DB Helper", "Records acquired, parsing now");
@@ -120,6 +123,49 @@ public class DBHelper extends SQLiteOpenHelper {
         return resultList;
     }
 
+    public Boolean deleteEntry(String tableName, String entryID) {
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        String query = "Update "+tableName+" set visibleEntry = 0 where entryID ='"+entryID+"'";
+        Cursor cursor = MyDB.rawQuery(query, null );
+        Log.i("results", String.valueOf(cursor.getCount()));
+        return cursor.getCount() > 0;
+    }
+
+    public Boolean updateEntry(String tableName, String entryID, String value, String day, String month, String year, String hour, String minute, String amPM) {
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        String twentyFourHour = "00";
+
+        if (amPM.equals("AM"))
+        {
+            Log.d("DB Helper", "Inserting AM Value");
+            if (Integer.parseInt(hour)==12)
+            {
+                twentyFourHour = "00";
+            }
+            else
+            {
+                twentyFourHour = hour;
+            }
+        }
+        if (amPM.equals("PM"))
+        {
+            Log.d("DB Helper", "Inserting PM Value");
+            if (Integer.parseInt(hour)==12)
+            {
+                twentyFourHour = hour;
+            }
+            else
+            {
+                twentyFourHour = Integer.toString(Integer.parseInt(hour)+12);
+            }
+        }
+
+        String query = "Update "+tableName+" set entryValue='"+value+"', dayEntry='"+day+"', monthEntry='"+month+"', yearEntry='"+year+"', hourEntry='"+hour+"', minuteEntry='"+minute+"', twentyFourHour='"+twentyFourHour+"' where entryID ='"+entryID+"'";
+        Log.d("DB Helper", "Running Query: "+query);
+        Cursor cursor = MyDB.rawQuery(query, null );
+        Log.i("results", String.valueOf(cursor.getCount()));
+        return cursor.getCount() > 0;
+    }
 
 
     public Boolean checkIfUserExists(String userName) {
@@ -135,4 +181,6 @@ public class DBHelper extends SQLiteOpenHelper {
 
         return cursor.getCount() > 0;
     }
+
+
 }

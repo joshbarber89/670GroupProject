@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddBloodSugarActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/bloodSugarDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DD"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/bloodSugarMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MM"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/bloodSugarYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YY"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/bloodSugarHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HH"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/bloodSugarMinute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MM"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number" />
+
+        <Spinner
+            android:id="@+id/amPMSelector"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/bloodSugarReading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blood Sugar Reading"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/updateBloodSugarButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/updateEntryButtonText" />
+
+        <Button
+            android:id="@+id/deleteBloodSugarButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/deleteEntryButtonText" />
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -32,6 +32,8 @@ import com.example.a670groupproject.databinding.ActivityMainBinding;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,11 +106,11 @@ public class MainActivity extends AppCompatActivity {
 
         selected = "Food";
 
-
         foodButton.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
                    selected = "Food";
+                   Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
                    dateText = (EditText)findViewById(R.id.editTextDate);
                    monthText = (EditText)findViewById(R.id.editTextMonth);
                    yearText = (EditText)findViewById(R.id.editTextYear);
@@ -127,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
               @Override
               public void onClick(View v) {
                   selected = "Medication";
+                  Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
                   dateText = (EditText)findViewById(R.id.editTextDate);
                   monthText = (EditText)findViewById(R.id.editTextMonth);
                   yearText = (EditText)findViewById(R.id.editTextYear);
@@ -145,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     selected = "Exercise";
+                    Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
                     dateText = (EditText)findViewById(R.id.editTextDate);
                     monthText = (EditText)findViewById(R.id.editTextMonth);
                     yearText = (EditText)findViewById(R.id.editTextYear);
@@ -163,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                   @Override
                   public void onClick(View v) {
                       selected = "BloodSugar";
+                      Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
                       dateText = (EditText)findViewById(R.id.editTextDate);
                       monthText = (EditText)findViewById(R.id.editTextMonth);
                       yearText = (EditText)findViewById(R.id.editTextYear);
@@ -181,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     selected = "Insulin";
+                    Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
                     dateText = (EditText)findViewById(R.id.editTextDate);
                     monthText = (EditText)findViewById(R.id.editTextMonth);
                     yearText = (EditText)findViewById(R.id.editTextYear);
@@ -199,29 +205,42 @@ public class MainActivity extends AppCompatActivity {
                  @Override
                  public void onClick(View v) {
                     Intent startNewActivity;
-                    switch (selected)
+                    dateText = (EditText)findViewById(R.id.editTextDate);
+                    monthText = (EditText)findViewById(R.id.editTextMonth);
+                    yearText = (EditText)findViewById(R.id.editTextYear);
+                    String day = dateText.getText().toString();
+                    String month = monthText.getText().toString();
+                    String year = yearText.getText().toString();
+                    Boolean inputValidation = inputValidationMain(day, month, year);
+                    if (inputValidation == true)
                     {
-                        case "Food":
-                            Log.d("main", "starting add food");
-                            //start 'add food' activity
-                            break;
-                        case "Medication":
-                            Log.d("main", "starting add medication");
-                            //start 'add medication' activity
-                            break;
-                        case "Exercise":
-                            Log.d("main", "starting add exercise");
-                            //start 'add exercise' activity
-                            break;
-                        case "BloodSugar":
-                            Log.d("main", "starting add blood sugar");
-                            startNewActivity = new Intent(getBaseContext(), AddBloodSugarActivity.class);
-                            startActivityForResult(startNewActivity,10);
-                            break;
-                        case "Insulin":
-                            Log.d("main", "starting add insulin");
-                            //start 'add insulin' activity
-                            break;
+                        switch (selected) {
+                            case "Food":
+                                Log.d("main", "starting add food");
+                                //start 'add food' activity
+                                break;
+                            case "Medication":
+                                Log.d("main", "starting add medication");
+                                //start 'add medication' activity
+                                break;
+                            case "Exercise":
+                                Log.d("main", "starting add exercise");
+                                //start 'add exercise' activity
+                                break;
+                            case "BloodSugar":
+                                Log.d("main", "starting add blood sugar");
+                                startNewActivity = new Intent(getBaseContext(), AddBloodSugarActivity.class);
+                                startActivityForResult(startNewActivity, 10);
+                                break;
+                            case "Insulin":
+                                Log.d("main", "starting add insulin");
+                                //start 'add insulin' activity
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Snackbar.make(v, "Please input a valid date", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     }
                  }
              }
@@ -265,4 +284,23 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+    public boolean inputValidationMain(String day, String month, String year)
+    {
+        Boolean valid = true;
+
+        if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
+        {
+            valid=false;
+        }
+        if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
+        {
+            valid = false;
+        }
+        if (month.length() !=2 || day.length() !=2 || year.length() !=4)
+        {
+            valid = false;
+        }
+        return valid;
+    }
+
 }

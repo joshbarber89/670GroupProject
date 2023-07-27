@@ -47,6 +47,8 @@
     <string name="bloodSugarButtonText">Blood Sugar</string>
     <string name="insulinButtonText">Insulin</string>
     <string name="addNewEntryButtonText">Add New Entry</string>
+    <string name="updateEntryButtonText">Update Entry</string>
+    <string name="deleteEntryButtonText">Delete Entry</string>
 
     <string name="customValidationError">Error: Please enter in valid data</string>
 
