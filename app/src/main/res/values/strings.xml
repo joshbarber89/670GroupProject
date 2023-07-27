@@ -51,7 +51,7 @@
     <string name="deleteEntryButtonText">Delete Entry</string>
 
     <string name="customValidationError">Error: Please enter in valid data</string>
-
+    <string name="refreshDataButtonText">Refresh Data</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="am_pm_spinner_values">
