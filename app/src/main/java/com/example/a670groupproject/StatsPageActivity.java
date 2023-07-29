@@ -120,9 +120,32 @@ public class StatsPageActivity extends AppCompatActivity {
             {
                 String[] entryString = (String[]) arrayList.get(i);
                 String entryValue = entryString[1];
+                String hour = entryString[2];
+                String minute = entryString[3];
+                String amPm = entryString[4];
                 try {
-                    float floatVal = Float.valueOf(entryValue);
-                    dp[i] = new DataPoint(i, floatVal);
+                    float entryFloatVal = Float.valueOf(entryValue);
+                    float twentyFourHour;
+                    if (amPm.equals("AM"))
+                    {
+                        if(Integer.parseInt(hour)==12)
+                        {
+                            twentyFourHour = 0+(Float.valueOf(minute)/60);
+                        }
+                        else {
+                            twentyFourHour = Float.valueOf(hour)+(Float.valueOf(minute)/60);
+                        }
+                    }
+                    else {
+                        if(Integer.parseInt(hour)==12)
+                        {
+                            twentyFourHour = Float.valueOf(hour)+(Float.valueOf(minute)/60);
+                        }
+                        else {
+                            twentyFourHour = Float.valueOf(hour)+12+(Float.valueOf(minute)/60);
+                        }
+                    }
+                    dp[i] = new DataPoint(twentyFourHour, entryFloatVal);
                 } catch (Exception e)
                 {
                     Log.i("stats", "Invalid formatting of value - not shown in graph");
@@ -130,7 +153,11 @@ public class StatsPageActivity extends AppCompatActivity {
             }
             progressBar.setProgress(75);
             LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dp);
-            graphView.setTitle("Blood Sugar Readings");
+            graphView.setTitle(getString(R.string.bloodSugarChartTitle));
+            graphView.getGridLabelRenderer().setVerticalAxisTitleTextSize(18);
+            graphView.getGridLabelRenderer().setVerticalAxisTitle(getString(R.string.bloodSugarYAxisTitle));
+            graphView.getGridLabelRenderer().setHorizontalAxisTitleTextSize(18);
+            graphView.getGridLabelRenderer().setHorizontalAxisTitle(getString(R.string.bloodSugarXAxisTitle));
             graphView.setTitleColor(R.color.black);
             graphView.setTitleTextSize(18);
             graphView.addSeries(series);

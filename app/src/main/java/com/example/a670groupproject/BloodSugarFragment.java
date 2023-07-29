@@ -25,13 +25,11 @@ import java.util.ArrayList;
  */
 public class BloodSugarFragment extends Fragment implements View.OnClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -75,10 +73,6 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
             mParam2 = getArguments().getString(ARG_PARAM2);
             mParam3 = getArguments().getString(ARG_PARAM3);
         }
-        //todo: populate the list in the fragment with entries from the database
-
-
-
     }
 
     @Override
@@ -155,9 +149,15 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
             TextView entryHour = (TextView)result.findViewById(R.id.entryHour);
             TextView entryMinute = (TextView)result.findViewById(R.id.entryMinute);
             TextView entryAMPM = (TextView)result.findViewById(R.id.entryAMPM);
-            entryValue.setText("Blood Sugar:"+getItem(position)[1]);
+            entryValue.setText(getString(R.string.bloodSugarButtonText)+":"+getItem(position)[1]);
             entryHour.setText(getItem(position)[2]);
-            entryMinute.setText(getItem(position)[3]);
+            if (Integer.parseInt(getItem(position)[3])<10)
+            {
+                entryMinute.setText("0"+getItem(position)[3]);
+            }
+            else {
+                entryMinute.setText(getItem(position)[3]);
+            }
             entryAMPM.setText(getItem(position)[4]);
             return result;
         }

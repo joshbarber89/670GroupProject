@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                @Override
                public void onClick(View v) {
                    selected = "Food";
-                   Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
+                   Toast.makeText(MainActivity.this, getString(R.string.showValues)+" "+getString(R.string.foodButtonText), Toast.LENGTH_SHORT).show();
                    dateText = (EditText)findViewById(R.id.editTextDate);
                    monthText = (EditText)findViewById(R.id.editTextMonth);
                    yearText = (EditText)findViewById(R.id.editTextYear);
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
               @Override
               public void onClick(View v) {
                   selected = "Medication";
-                  Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
+                  Toast.makeText(MainActivity.this, getString(R.string.showValues)+" "+getString(R.string.medicationButtonText), Toast.LENGTH_SHORT).show();
                   dateText = (EditText)findViewById(R.id.editTextDate);
                   monthText = (EditText)findViewById(R.id.editTextMonth);
                   yearText = (EditText)findViewById(R.id.editTextYear);
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     selected = "Exercise";
-                    Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.showValues)+" "+getString(R.string.exerciseButtonText), Toast.LENGTH_SHORT).show();
                     dateText = (EditText)findViewById(R.id.editTextDate);
                     monthText = (EditText)findViewById(R.id.editTextMonth);
                     yearText = (EditText)findViewById(R.id.editTextYear);
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                   @Override
                   public void onClick(View v) {
                       selected = "BloodSugar";
-                      Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
+                      Toast.makeText(MainActivity.this, getString(R.string.showValues)+" "+getString(R.string.bloodSugarButtonText), Toast.LENGTH_SHORT).show();
                       dateText = (EditText)findViewById(R.id.editTextDate);
                       monthText = (EditText)findViewById(R.id.editTextMonth);
                       yearText = (EditText)findViewById(R.id.editTextYear);
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     selected = "Insulin";
-                    Toast.makeText(MainActivity.this, "Showing values for "+selected, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.showValues)+" "+getString(R.string.insulinButtonText), Toast.LENGTH_SHORT).show();
                     dateText = (EditText)findViewById(R.id.editTextDate);
                     monthText = (EditText)findViewById(R.id.editTextMonth);
                     yearText = (EditText)findViewById(R.id.editTextYear);
@@ -217,7 +217,8 @@ public class MainActivity extends AppCompatActivity {
                         switch (selected) {
                             case "Food":
                                 Log.d("main", "starting add food");
-                                //start 'add food' activity
+                                startNewActivity = new Intent(getBaseContext(), AddFoodActivity.class);
+                                startActivityForResult(startNewActivity, 10);
                                 break;
                             case "Medication":
                                 Log.d("main", "starting add medication");
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Snackbar.make(v, "Please input a valid date", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                        Snackbar.make(v, getString(R.string.invalidDate), Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     }
                  }
              }

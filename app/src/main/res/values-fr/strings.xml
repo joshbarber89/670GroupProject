@@ -1,0 +1,71 @@
+<resources>
+    <string name="app_name">670GroupProject</string>
+    <string name="loginError">Veuillez saisir un e-mail correctement formaté et un mot de passe non vide</string>
+    <string name="ok">D’accord</string>
+    <string name="loginActivityTextViewLogin">Connectez-vous</string>
+    <string name="loginActivityEditTextHintLogin">Nom de connexion</string>
+    <string name="loginActivityTextViewPassword">Mot de passe</string>
+    <string name="loginActivityCheckboxRememberMe">Souvenez-vous de moi</string>
+    <string name="loginActivityButtonLogin">Connectez-vous</string>
+    <string name="loginActivityButtonRegister">registre</string>
+    <string name="registerActivityTextViewLoginText">Entres l\'adresse e-mail</string>
+    <string name="registerActivityEditTextEmailAddress">Adresse courriel</string>
+    <string name="registerActivityTextViewPassword">Entres le mot de passe</string>
+    <string name="registerActivityEditTextPassword">Mot de passe</string>
+    <string name="registerActivityTextViewRePassword">Re Entrer le mot de passe</string>
+    <string name="registerActivityEditTextRePassword">Re Mot de passe</string>
+    <string name="registerActivityButtonRegister">Enregistrer un compte</string>
+    <string name="registerActivityButtonBack">Précédent</string>
+    <string name="settingsActivityTextViewTitle">Paramètres</string>
+    <string name="settingsActivityTextViewBloodSugarLevelUnits">Unités de glycémie</string>
+    <string name="settingsActivityTextViewBloodSugarLevelUnits1st">mmol/L</string>
+    <string name="settingsActivityTextViewBloodSugarLevelUnits2nd">mg/dL</string>
+    <string name="settingsActivityTextViewBloodInsulinLevelUnits">Unités de concentration d’insuline dans le sang</string>
+    <string name="settingsActivityTextViewBloodInsulinLevelUnits1st">IU/mL</string>
+    <string name="settingsActivityTextViewBloodInsulinLevelUnits2nd">pmol/L</string>
+    <string name="playRelaxingMusic">Écoutez de la musique relaxante:</string>
+    <string name="settingsActivityButtonLogout">Logout</string>
+
+    <!-- About Me -->
+    <string name="aboutMe">
+        Cette application est créée par Darryl Bedford, Josh Barber, Ali Himada, Vision Paudel et Fraser Gray-Smith.\n
+        Il s’agit du numéro de version 0.1\n
+        Assurez-vous de vous inscrire avant d’essayer de vous connecter! Une fois que vous y êtes, commencez à ajouter vos entrées de journal. Utilisez la barre d’outils en haut pour les statistiques et les paramètres.\n
+        Une fois connecté, appuyez sur l’un des boutons du journal en haut de la page principale (par exemple, nourriture, glycémie) pour voir les entrées de votre journal pour la journée affichées ci-dessus. \n
+        Si vous modifiez la date, appuyez à nouveau sur le bouton journal en haut de la page pour afficher les entrées de la date de mise à jour. \n
+        Cliquez sur l’une des entrées pour les mettre à jour ou les supprimer. Cliquez sur le bouton « Ajouter une nouvelle entrée » en bas pour ajouter une nouvelle entrée à votre agenda. L’application vous mènera automatiquement à la page appropriée pour ajouter des entrées pour n’importe quel journal actuellement affiché. Modifiez la date et l’heure pertinentes sur cette page et ajoutez votre entrée avant de cliquer sur ajouter une nouvelle entrée.
+    </string>
+    <!-- Stats -->
+    <string name="statsEatingCheck">Afficher les points de contrôle de l’alimentation au fil du temps</string>
+    <string name="statsMedicationCheck">Montrer la médication au fil du temps</string>
+    <string name="statsExerciseCheck">Montrer l’exercice au fil du temps</string>
+    <string name="statsBloodSugarCheck">Montrer les niveaux de sucre dans le sang au fil du temps</string>
+    <string name="foodButtonText">Nourriture</string>
+    <string name="medicationButtonText">Médicament</string>
+    <string name="exerciseButtonText">Exercice</string>
+    <string name="bloodSugarButtonText">Glycémie</string>
+    <string name="insulinButtonText">Insuline</string>
+    <string name="addNewEntryButtonText">Ajouter une nouvelle entrée</string>
+    <string name="updateEntryButtonText">Mettre à jour l’entrée</string>
+    <string name="deleteEntryButtonText">Supprimer l’entrée</string>
+    <string name="customValidationError">Erreur : Veuillez saisir des données valides</string>
+    <string name="refreshDataButtonText">Actualiser les données</string>
+    <string name="bloodSugarReadingDefaultText">Mettre à jour la lecture de la glycémie ici</string>
+    <string name="foodDefaultText">Mettre à jour la nourriture ici</string>
+
+    <string name="hello_blank_fragment">Bonjour fragment vide</string>
+
+    <string-array name="am_pm_spinner_values">
+        <item>AM</item>
+        <item>PM</item>
+    </string-array>
+
+    <string name="bloodSugarChartTitle">Glycémie au fil du temps</string>
+    <string name="bloodSugarXAxisTitle">du temps</string>
+    <string name="bloodSugarYAxisTitle">Glycémie</string>
+
+    <string name="invalidDate">S\'il vous plaît sélectionnez une date valide</string>
+
+    <string name="showValues">Affichage des valeurs pour </string>
+
+</resources>

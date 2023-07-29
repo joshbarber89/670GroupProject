@@ -1,30 +1,45 @@
 package com.example.a670groupproject;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FoodFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FoodFragment extends Fragment {
+public class FoodFragment extends Fragment implements View.OnClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     private String mParam3;
+
+    ListView foodList;
+
+    private DBHelper DB;
+    ArrayList<String[]> entryArray = new ArrayList<String[]>();
+
+    View view;
 
     public FoodFragment() {
         // Required empty public constructor
@@ -63,7 +78,87 @@ public class FoodFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_food, container, false);
+        view = inflater.inflate(R.layout.fragment_food, container, false);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+            mParam3 = getArguments().getString(ARG_PARAM3);
+        }
+        DB = new DBHelper(getActivity());
+        Log.d("Food Fragment", "Getting food records for date "+mParam1+"-"+mParam2+"-"+mParam3);
+        entryArray = DB.getEntries("foodTable", mParam1, mParam2, mParam3);
+        Log.d("Food Fragment", "Entries Received from Database, displaying now");
+        FoodFragment.EntryAdapter entryAdapter = new FoodFragment.EntryAdapter(getActivity());
+        foodList = (ListView) view.findViewById(R.id.foodList);
+        foodList.setAdapter(entryAdapter);
+
+        foodList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i("Food Fragment", "item clicked at position: "+i);
+                String[] entryString = entryArray.get(i);
+                String entryID = entryString[0];
+                String entryValue = entryString[1];
+                String entryHour = entryString[2];
+                String entryMinute = entryString[3];
+                String amPM = entryString[4];
+                Intent startNewActivity = new Intent(getActivity().getBaseContext(), UpdateFoodActivity.class);
+                startNewActivity.putExtra("entryID", entryID);
+                startNewActivity.putExtra("entryValue", entryValue);
+                startNewActivity.putExtra("entryHour", entryHour);
+                startNewActivity.putExtra("entryMinute", entryMinute);
+                startNewActivity.putExtra("amPM", amPM);
+                startNewActivity.putExtra("entryDay", mParam1);
+                startNewActivity.putExtra("entryMonth", mParam2);
+                startNewActivity.putExtra("entryYear", mParam3);
+                startActivityForResult(startNewActivity,10);
+            }
+        });
+
+
+        return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+    private class EntryAdapter extends ArrayAdapter<String[]>
+    {
+        public EntryAdapter(Context ctx) {
+            super(ctx, 0);
+        }
+
+        public int getCount()
+        {
+            int listSize = entryArray.size();
+            return listSize;
+        }
+        public String[] getItem(int position)
+        {
+            String[] entry = entryArray.get(position);
+            return entry;
+        }
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+            LayoutInflater inflater = FoodFragment.this.getLayoutInflater();
+            View result = inflater.inflate(R.layout.entry_row, null);
+            TextView entryValue = (TextView)result.findViewById(R.id.entryValue);
+            TextView entryHour = (TextView)result.findViewById(R.id.entryHour);
+            TextView entryMinute = (TextView)result.findViewById(R.id.entryMinute);
+            TextView entryAMPM = (TextView)result.findViewById(R.id.entryAMPM);
+            entryValue.setText(getItem(position)[1]);
+            entryHour.setText(getItem(position)[2]);
+            if (Integer.parseInt(getItem(position)[3])<10)
+            {
+                entryMinute.setText("0"+getItem(position)[3]);
+            }
+            else {
+                entryMinute.setText(getItem(position)[3]);
+            }
+            entryAMPM.setText(getItem(position)[4]);
+            return result;
+        }
     }
 
 }

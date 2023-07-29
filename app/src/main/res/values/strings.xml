@@ -32,9 +32,13 @@
     <string name="settingsActivityButtonLogout">Logout</string>
     <!-- About Me -->
     <string name="aboutMe">
-        This application is created by Darryl Bedford, Josh Barber, Ali Himada, Vision Paudel, and Fraser Gray-Smith\n
+        This application is created by Darryl Bedford, Josh Barber, Ali Himada, Vision Paudel, and Fraser Gray-Smith.\n
         This is version number 0.1\n
-        Make sure you register before trying to login! Once you are in, start adding your diary entries. Use the toolbar at the top for cool stats and settings.</string>
+        Make sure you register before trying to login! Once you are in, start adding your diary entries. Use the toolbar at the top for stats and settings.\n
+        Once you are signed in, press any of the diary buttons at the top of the main page (ex: Food, Blood Sugar) to see your diary entries for the day displayed above. \n
+        If you change the date, press the diary button at the top of the page again to view the entries for the updated date. \n
+        Click on any of the entries to update or delete them. Click on the "Add New Entry" button at the bottom to add a new entry to your diary. The app will automatically take you to the relevant page to add entries for whatever diary is currently displayed. Change the relevant date and time on that page, and add your entry before clicking "Add New Entry".
+    </string>
     <!-- Stats -->
     <string name="statsEatingCheck">Show Eating Checkpoints Over Time</string>
     <string name="statsMedicationCheck">Show Medication Over Time</string>
@@ -52,10 +56,22 @@
 
     <string name="customValidationError">Error: Please enter in valid data</string>
     <string name="refreshDataButtonText">Refresh Data</string>
+    <string name="bloodSugarReadingDefaultText">Update Blood Sugar Reading Here</string>
+    <string name="foodDefaultText">Update Food Here</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="am_pm_spinner_values">
         <item>AM</item>
         <item>PM</item>
     </string-array>
+
+    <string name="bloodSugarChartTitle">Blood Sugar Over Time</string>
+    <string name="bloodSugarXAxisTitle">Time</string>
+    <string name="bloodSugarYAxisTitle">Blood Sugar Reading</string>
+
+    <string name="invalidDate">Please select a valid date</string>
+
+    <string name="showValues">Showing Values For </string>
+
+
 </resources>

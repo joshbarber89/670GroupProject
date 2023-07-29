@@ -5,11 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".FoodFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="200dp"
-        android:text="This is a food fragment" />
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/foodList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true">
+        </ListView>
+
+    </RelativeLayout>
 
 </FrameLayout>

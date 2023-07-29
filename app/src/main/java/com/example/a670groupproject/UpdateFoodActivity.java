@@ -21,15 +21,15 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
-public class UpdateBloodSugarActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class UpdateFoodActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    public static final String tag = "UpdateBloodSugarActivity";
-    EditText bloodSugarReading;
-    EditText bloodSugarDay;
-    EditText bloodSugarMonth;
-    EditText bloodSugarYear;
-    EditText bloodSugarHour;
-    EditText bloodSugarMinute;
+    public static final String tag = "UpdateFoodActivity";
+    EditText foodReading;
+    EditText foodDay;
+    EditText foodMonth;
+    EditText foodYear;
+    EditText foodHour;
+    EditText foodMinute;
     String entryID;
     String entryValue;
     String entryHour;
@@ -58,7 +58,7 @@ public class UpdateBloodSugarActivity extends AppCompatActivity implements Adapt
         Log.i(tag, "Entry ID is : "+entryID+" entry value is "+entryValue+" entry hour is "+entryHour+" entry minute is "+entryMinute);
         DB = new DBHelper(this);
 
-        setContentView(R.layout.activity_update_blood_sugar);
+        setContentView(R.layout.activity_update_food);
         Spinner spinner = (Spinner) findViewById(R.id.amPMSelector);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.am_pm_spinner_values, android.R.layout.simple_spinner_item);
@@ -68,35 +68,35 @@ public class UpdateBloodSugarActivity extends AppCompatActivity implements Adapt
         int spinnerPosition = adapter.getPosition(amPMValue);
         spinner.setSelection(spinnerPosition);
 
-        bloodSugarDay = (EditText)findViewById(R.id.bloodSugarDay);
-        bloodSugarMonth = (EditText)findViewById(R.id.bloodSugarMonth);
-        bloodSugarYear = (EditText)findViewById(R.id.bloodSugarYear);
-        bloodSugarReading = (EditText)findViewById(R.id.bloodSugarReading);
-        bloodSugarHour = (EditText)findViewById(R.id.bloodSugarHour);
-        bloodSugarMinute = (EditText)findViewById(R.id.bloodSugarMinute);
-        bloodSugarReading.setText(entryValue);
-        bloodSugarDay.setText(entryDay);
-        bloodSugarMonth.setText(entryMonth);
-        bloodSugarYear.setText(entryYear);
-        bloodSugarHour.setText(entryHour);
-        bloodSugarMinute.setText(entryMinute);
+        foodDay = (EditText)findViewById(R.id.foodDay);
+        foodMonth = (EditText)findViewById(R.id.foodMonth);
+        foodYear = (EditText)findViewById(R.id.foodYear);
+        foodReading = (EditText)findViewById(R.id.foodReading);
+        foodHour = (EditText)findViewById(R.id.foodHour);
+        foodMinute = (EditText)findViewById(R.id.foodMinute);
+        foodReading.setText(entryValue);
+        foodDay.setText(entryDay);
+        foodMonth.setText(entryMonth);
+        foodYear.setText(entryYear);
+        foodHour.setText(entryHour);
+        foodMinute.setText(entryMinute);
 
-        Button updateBloodSugarButton = (Button) findViewById(R.id.updateBloodSugarButton);
-        updateBloodSugarButton.setOnClickListener(new View.OnClickListener() {
+        Button updateFoodButton = (Button) findViewById(R.id.updatefoodButton);
+        updateFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(tag, "Updating Entry ID: "+entryID);
-                String value = bloodSugarReading.getText().toString();
-                String day = bloodSugarDay.getText().toString();
-                String month = bloodSugarMonth.getText().toString();
-                String year = bloodSugarYear.getText().toString();
-                String hour = bloodSugarHour.getText().toString();
-                String minute = bloodSugarMinute.getText().toString();
+                String value = foodReading.getText().toString();
+                String day = foodDay.getText().toString();
+                String month = foodMonth.getText().toString();
+                String year = foodYear.getText().toString();
+                String hour = foodHour.getText().toString();
+                String minute = foodMinute.getText().toString();
                 String amPMValue = spinner.getSelectedItem().toString();
-                Boolean valid = inputValidationBloodSugar(day, month, year, hour, minute, value);
+                Boolean valid = inputValidationFood(day, month, year, hour, minute, value);
 
                 Log.i(tag, "Day: "+day+" month: "+month+" year: "+year);
-                DB.updateEntry("bloodSugarTable", entryID, value, day, month, year, hour, minute, amPMValue);
+                DB.updateEntry("foodTable", entryID, value, day, month, year, hour, minute, amPMValue);
                 Log.i(tag, "Entry ID: "+entryID+" is updated");
                 Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
                 startActivityForResult(startNewActivity,10);
@@ -104,12 +104,12 @@ public class UpdateBloodSugarActivity extends AppCompatActivity implements Adapt
             }
         });
 
-        Button deleteBloodSugarButton = (Button) findViewById(R.id.deleteBloodSugarButton);
-        deleteBloodSugarButton.setOnClickListener(new View.OnClickListener() {
+        Button deleteFoodButton = (Button) findViewById(R.id.deletefoodButton);
+        deleteFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i(tag, "Deleting Entry ID: "+entryID);
-                DB.deleteEntry("bloodSugarTable", entryID);
+                DB.deleteEntry("foodTable", entryID);
                 Log.i(tag, "Entry ID: "+entryID+" is deleted");
                 Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
                 startActivityForResult(startNewActivity,10);
@@ -128,41 +128,34 @@ public class UpdateBloodSugarActivity extends AppCompatActivity implements Adapt
         amPMValue = "AM";
     }
 
-    public boolean inputValidationBloodSugar(String day, String month, String year, String hour, String minute, String value)
+    public boolean inputValidationFood(String day, String month, String year, String hour, String minute, String value)
     {
         Boolean valid = true;
         DecimalFormat df = new DecimalFormat();
 
         if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
         {
-            Log.i(tag, "Invalid day in update blood sugar activity");
+            Log.i(tag, "Invalid day in update food activity");
             valid=false;
         }
         if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
         {
-            Log.i(tag, "Invalid month in update blood sugar activity");
+            Log.i(tag, "Invalid month in update food activity");
             valid = false;
         }
         if (Integer.parseInt(hour)>12 ||Integer.parseInt(hour)<0)
         {
-            Log.i(tag, "Invalid hour in update blood sugar activity");
+            Log.i(tag, "Invalid hour in update food activity");
             valid = false;
         }
         if (Integer.parseInt(minute)>59 ||Integer.parseInt(minute)<0)
         {
-            Log.i(tag, "Invalid minute in update blood sugar activity");
+            Log.i(tag, "Invalid minute in update food activity");
             valid = false;
         }
         if (month.length() !=2 || day.length() !=2 || hour.length() !=2|| minute.length() !=2 || year.length() !=4)
         {
-            Log.i(tag, "Invalid formatting of day/month/year in update blood sugar activity");
-            valid = false;
-        }
-        try {
-            df.parse(value).floatValue();
-        } catch (ParseException e)
-        {
-            Log.i(tag, "Invalid formatting of value in update blood sugar activity");
+            Log.i(tag, "Invalid formatting of day/month/year in update food activity");
             valid = false;
         }
         return valid;
