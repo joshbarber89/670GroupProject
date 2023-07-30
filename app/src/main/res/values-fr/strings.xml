@@ -52,6 +52,9 @@
     <string name="refreshDataButtonText">Actualiser les données</string>
     <string name="bloodSugarReadingDefaultText">Mettre à jour la lecture de la glycémie ici</string>
     <string name="foodDefaultText">Mettre à jour la nourriture ici</string>
+    <string name="exerciseDefaultText">Mettre à jour la exercer ici</string>
+    <string name="insulinDefaultText">Mettre à jour l\'insulin ici</string>
+    <string name="medicationDefaultText">Mettre à jour la medication ici</string>
 
     <string name="hello_blank_fragment">Bonjour fragment vide</string>
 

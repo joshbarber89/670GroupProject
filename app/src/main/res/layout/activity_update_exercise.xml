@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UpdateFoodActivity">
+    tools:context=".UpdateExerciseActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/foodDay"
+            android:id="@+id/exerciseDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DD"
@@ -24,7 +24,7 @@
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/foodMonth"
+            android:id="@+id/exerciseMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MM"
@@ -34,7 +34,7 @@
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/foodYear"
+            android:id="@+id/exerciseYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="YY"
@@ -51,7 +51,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/foodHour"
+            android:id="@+id/exerciseHour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="HH"
@@ -61,7 +61,7 @@
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/foodMinute"
+            android:id="@+id/exerciseMinute"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MM"
@@ -84,13 +84,13 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/foodReading"
+            android:id="@+id/exerciseReading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:gravity="center"
-            android:hint="@string/foodDefaultText"
+            android:hint="@string/exerciseDefaultText"
             android:inputType="text" />
     </LinearLayout>
 
@@ -101,14 +101,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/updatefoodButton"
+            android:id="@+id/updateexerciseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/updateEntryButtonText" />
 
         <Button
-            android:id="@+id/deletefoodButton"
+            android:id="@+id/deleteexerciseButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

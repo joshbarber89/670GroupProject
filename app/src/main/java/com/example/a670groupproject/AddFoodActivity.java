@@ -143,7 +143,7 @@ public class AddFoodActivity extends AppCompatActivity implements AdapterView.On
                     }
                     else
                     {
-                        Log.i(tag, "Invalid input in add blood sugar activity");
+                        Log.i(tag, "Invalid input in add food activity");
                         AlertDialog.Builder customDialog = new AlertDialog.Builder(AddFoodActivity.this);
                         LayoutInflater inflater = AddFoodActivity.this.getLayoutInflater();
                         final View view = inflater.inflate(R.layout.custom_dialog, null);

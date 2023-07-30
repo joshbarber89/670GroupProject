@@ -259,24 +259,27 @@ public class MainActivity extends AppCompatActivity {
                             case "Food":
                                 Log.d("main", "starting add food");
                                 startNewActivity = new Intent(getBaseContext(), AddFoodActivity.class);
-                                startActivityForResult(startNewActivity, 9);
+                                startActivityForResult(startNewActivity, 8);
                                 break;
                             case "Medication":
                                 Log.d("main", "starting add medication");
-                                //start 'add medication' activity
+                                startNewActivity = new Intent(getBaseContext(), AddMedicationActivity.class);
+                                startActivityForResult(startNewActivity, 9);
                                 break;
                             case "Exercise":
                                 Log.d("main", "starting add exercise");
-                                //start 'add exercise' activity
+                                startNewActivity = new Intent(getBaseContext(), AddExerciseActivity.class);
+                                startActivityForResult(startNewActivity, 10);
                                 break;
                             case "BloodSugar":
                                 Log.d("main", "starting add blood sugar");
                                 startNewActivity = new Intent(getBaseContext(), AddBloodSugarActivity.class);
-                                startActivityForResult(startNewActivity, 10);
+                                startActivityForResult(startNewActivity, 11);
                                 break;
                             case "Insulin":
                                 Log.d("main", "starting add insulin");
-                                //start 'add insulin' activity
+                                startNewActivity = new Intent(getBaseContext(), AddInsulinActivity.class);
+                                startActivityForResult(startNewActivity, 12);
                                 break;
                         }
                     }
@@ -298,6 +301,12 @@ public class MainActivity extends AppCompatActivity {
             bloodSugarButton.performClick();
         if (selected == "Insulin")
             insulinButton.performClick();
+        if (selected == "Exercise")
+            exerciseButton.performClick();
+        if (selected == "Medication")
+            medicationButton.performClick();
+        if (selected == "Food")
+            foodButton.performClick();
 
     }
 

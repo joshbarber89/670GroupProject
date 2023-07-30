@@ -13,6 +13,24 @@
         android:theme="@style/Theme.670GroupProject"
         tools:targetApi="31">
         <activity
+            android:name=".UpdateMedicationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateInsulinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddMedicationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddInsulinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddExerciseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UpdateExerciseActivity"
+            android:exported="false" />
+        <activity
             android:name=".UpdateFoodActivity"
             android:exported="false" />
         <activity

@@ -58,6 +58,10 @@
     <string name="refreshDataButtonText">Refresh Data</string>
     <string name="bloodSugarReadingDefaultText">Update Blood Sugar Reading Here</string>
     <string name="foodDefaultText">Update Food Here</string>
+    <string name="exerciseDefaultText">Update Exercise Here</string>
+    <string name="insulinDefaultText">Update Insulin Here</string>
+    <string name="medicationDefaultText">Update Medication Here</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string-array name="am_pm_spinner_values">
