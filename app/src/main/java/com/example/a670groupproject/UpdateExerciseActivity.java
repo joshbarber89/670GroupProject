@@ -94,12 +94,29 @@ public class UpdateExerciseActivity extends AppCompatActivity implements Adapter
                 String minute = exerciseMinute.getText().toString();
                 String amPMValue = spinner.getSelectedItem().toString();
                 Boolean valid = inputValidationExercise(day, month, year, hour, minute, value);
-
-                Log.i(tag, "Day: "+day+" month: "+month+" year: "+year);
-                DB.updateEntry("exerciseTable", entryID, value, day, month, year, hour, minute, amPMValue);
-                Log.i(tag, "Entry ID: "+entryID+" is updated");
-                Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                startActivityForResult(startNewActivity,10);
+                if (valid==true)
+                {
+                    Log.i(tag, "Day: "+day+" month: "+month+" year: "+year);
+                    DB.updateEntry("exerciseTable", entryID, value, day, month, year, hour, minute, amPMValue);
+                    Log.i(tag, "Entry ID: "+entryID+" is updated");
+                    Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                    startActivityForResult(startNewActivity,10);
+                }
+                else
+                {
+                    Log.i(tag, "Invalid input in update exercise activity");
+                    AlertDialog.Builder customDialog = new AlertDialog.Builder(UpdateExerciseActivity.this);
+                    LayoutInflater inflater = UpdateExerciseActivity.this.getLayoutInflater();
+                    final View view = inflater.inflate(R.layout.custom_dialog, null);
+                    customDialog.setView(view)
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    Dialog dialog = customDialog.create();
+                    dialog.show();
+                }
 
             }
         });
@@ -153,7 +170,7 @@ public class UpdateExerciseActivity extends AppCompatActivity implements Adapter
             Log.i(tag, "Invalid minute in update exercise activity");
             valid = false;
         }
-        if (month.length() !=2 || day.length() !=2 || hour.length() !=2|| minute.length() !=2 || year.length() !=4)
+        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
         {
             Log.i(tag, "Invalid formatting of day/month/year in update exercise activity");
             valid = false;

@@ -198,7 +198,7 @@ public class AddFoodActivity extends AppCompatActivity implements AdapterView.On
             Log.i(tag, "Invalid minute in update food activity");
             valid = false;
         }
-        if (month.length() !=2 || day.length() !=2 || hour.length() !=2|| minute.length() !=2 || year.length() !=4)
+        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
         {
             Log.i(tag, "Invalid formatting of day/month/year in update food activity");
             valid = false;

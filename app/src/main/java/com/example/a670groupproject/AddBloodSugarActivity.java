@@ -209,7 +209,7 @@ public class AddBloodSugarActivity extends AppCompatActivity implements AdapterV
         {
             valid = false;
         }
-        if (month.length() !=2 || day.length() !=2 || hour.length() !=2|| minute.length() !=2 || year.length() !=4)
+        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
         {
             valid = false;
         }

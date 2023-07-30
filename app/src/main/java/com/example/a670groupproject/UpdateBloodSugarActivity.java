@@ -96,25 +96,41 @@ public class UpdateBloodSugarActivity extends AppCompatActivity implements Adapt
                 Boolean valid = inputValidationBloodSugar(day, month, year, hour, minute, value);
 
                 Log.i(tag, "Day: "+day+" month: "+month+" year: "+year);
+                if (valid ==true) {
 
-                if (MainActivity.selectedBloodSugarUnit == SettingsActivity.BloodSugarUnit_mmolPerLitre) {
+                    if (MainActivity.selectedBloodSugarUnit == SettingsActivity.BloodSugarUnit_mmolPerLitre) {
 
-                    DB.updateEntry("bloodSugarTable0", entryID, value, day, month, year, hour, minute, amPMValue);
+                        DB.updateEntry("bloodSugarTable0", entryID, value, day, month, year, hour, minute, amPMValue);
 
-                    DB.updateEntry("bloodSugarTable1", entryID,(Float.parseFloat(value) * 18.018) + "", day, month, year, hour, minute, amPMValue);
+                        DB.updateEntry("bloodSugarTable1", entryID, (Float.parseFloat(value) * 18.018) + "", day, month, year, hour, minute, amPMValue);
 
-                    Log.i(tag, "Entry ID: " + entryID + " is updated");
-                    Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                    startActivityForResult(startNewActivity, 10);
+                        Log.i(tag, "Entry ID: " + entryID + " is updated");
+                        Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                        startActivityForResult(startNewActivity, 10);
+                    } else {
+                        DB.updateEntry("bloodSugarTable1", entryID, value, day, month, year, hour, minute, amPMValue);
+
+                        DB.updateEntry("bloodSugarTable0", entryID, (Float.parseFloat(value) * 0.0555) + "", day, month, year, hour, minute, amPMValue);
+
+                        Log.i(tag, "Entry ID: " + entryID + " is updated");
+                        Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                        startActivityForResult(startNewActivity, 10);
+                    }
                 }
-                else{
-                    DB.updateEntry("bloodSugarTable1", entryID, value, day, month, year, hour, minute, amPMValue);
-
-                    DB.updateEntry("bloodSugarTable0", entryID,(Float.parseFloat(value) * 0.0555) + "", day, month, year, hour, minute, amPMValue);
-
-                    Log.i(tag, "Entry ID: " + entryID + " is updated");
-                    Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                    startActivityForResult(startNewActivity, 10);
+                else
+                {
+                    Log.i(tag, "Invalid input in update blood sugar activity");
+                    AlertDialog.Builder customDialog = new AlertDialog.Builder(UpdateBloodSugarActivity.this);
+                    LayoutInflater inflater = UpdateBloodSugarActivity.this.getLayoutInflater();
+                    final View view = inflater.inflate(R.layout.custom_dialog, null);
+                    customDialog.setView(view)
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    Dialog dialog = customDialog.create();
+                    dialog.show();
                 }
 
             }
@@ -170,7 +186,7 @@ public class UpdateBloodSugarActivity extends AppCompatActivity implements Adapt
             Log.i(tag, "Invalid minute in update blood sugar activity");
             valid = false;
         }
-        if (month.length() !=2 || day.length() !=2 || hour.length() !=2|| minute.length() !=2 || year.length() !=4)
+        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
         {
             Log.i(tag, "Invalid formatting of day/month/year in update blood sugar activity");
             valid = false;

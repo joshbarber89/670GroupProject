@@ -198,7 +198,7 @@ public class AddExerciseActivity extends AppCompatActivity implements AdapterVie
             Log.i(tag, "Invalid minute in update exercise activity");
             valid = false;
         }
-        if (month.length() !=2 || day.length() !=2 || hour.length() !=2|| minute.length() !=2 || year.length() !=4)
+        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
         {
             Log.i(tag, "Invalid formatting of day/month/year in update exercise activity");
             valid = false;
