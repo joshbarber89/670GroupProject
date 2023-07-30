@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static int playMusic = 0;
 
-    public static boolean firstLogin = true;
+    public static boolean firstTime = true;
 
     private Button foodButton;
     private Button medicationButton;
@@ -75,19 +75,18 @@ public class MainActivity extends AppCompatActivity {
         String emailForSettings = userPrefs.getString("emailAddress", null);
 
         // Load previous settings based on the email address
-        if (emailForSettings != null && firstLogin){
+        if (emailForSettings != null){
             specificUserPrefs = getSharedPreferences(emailForSettings, MODE_PRIVATE);
             SharedPreferences.Editor myEditor = specificUserPrefs.edit();
 
-            if (specificUserPrefs.getInt("login_count", 0) == 1){
+            if (specificUserPrefs.getInt("login_count", 0) == 1 && firstTime){
                 myEditor.putInt("bloodSugarUnits", SettingsActivity.BloodSugarUnit_mmolPerLitre);
                 myEditor.putInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_IUPerMilliLitre);
                 myEditor.putInt("playMusic", 0);
                 myEditor.apply();
-                firstLogin = false;
+                firstTime = false;
             }
             else{
-                firstLogin = false;
                 selectedBloodSugarUnit = specificUserPrefs.getInt("bloodSugarUnits", SettingsActivity.BloodSugarUnit_mmolPerLitre);
                 selectedBloodInsulinUnit = specificUserPrefs.getInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_IUPerMilliLitre);
                 playMusic = specificUserPrefs.getInt("playMusic", 0);
