@@ -82,7 +82,12 @@ public class InsulinFragment extends Fragment implements View.OnClickListener {
         }
         DB = new DBHelper(getActivity());
         Log.d("insulin Fragment", "Getting insulin records for date "+mParam1+"-"+mParam2+"-"+mParam3);
-        entryArray = DB.getEntries("insulinTable", mParam1, mParam2, mParam3);
+
+        if (MainActivity.selectedBloodInsulinUnit == SettingsActivity.BloodInsulinUnit_uIUPerMilliLitre)
+            entryArray = DB.getEntries("insulinTable0", mParam1, mParam2, mParam3);
+        else
+            entryArray = DB.getEntries("insulinTable1", mParam1, mParam2, mParam3);
+
         Log.d("insulin Fragment", "Entries Received from Database, displaying now");
         InsulinFragment.EntryAdapter entryAdapter = new InsulinFragment.EntryAdapter(getActivity());
         insulinList = (ListView) view.findViewById(R.id.insulinList);

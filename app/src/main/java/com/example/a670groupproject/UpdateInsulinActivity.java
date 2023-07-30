@@ -95,11 +95,34 @@ public class UpdateInsulinActivity extends AppCompatActivity implements AdapterV
                 String amPMValue = spinner.getSelectedItem().toString();
                 Boolean valid = inputValidationInsulin(day, month, year, hour, minute, value);
                 if (valid==true) {
-                    Log.i(tag, "Day: " + day + " month: " + month + " year: " + year);
-                    DB.updateEntry("insulinTable", entryID, value, day, month, year, hour, minute, amPMValue);
-                    Log.i(tag, "Entry ID: " + entryID + " is updated");
-                    Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                    startActivityForResult(startNewActivity, 10);
+
+                    if (MainActivity.selectedBloodInsulinUnit == SettingsActivity.BloodInsulinUnit_uIUPerMilliLitre) {
+
+                        Log.i(tag, "Day: " + day + " month: " + month + " year: " + year);
+
+                        DB.updateEntry("insulinTable0", entryID, value, day, month, year, hour, minute, amPMValue);
+
+                        DB.updateEntry("insulinTable1", entryID, (Float.parseFloat(value) * 6) + "", day, month, year, hour, minute, amPMValue);
+
+                        Log.i(tag, "Entry ID: " + entryID + " is updated");
+                        Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                        startActivityForResult(startNewActivity, 10);
+
+                    }
+                    else{
+
+                        Log.i(tag, "Day: " + day + " month: " + month + " year: " + year);
+
+                        DB.updateEntry("insulinTable0", entryID, (Float.parseFloat(value) / 6) + "", day, month, year, hour, minute, amPMValue);
+
+                        DB.updateEntry("insulinTable1", entryID, value, day, month, year, hour, minute, amPMValue);
+
+                        Log.i(tag, "Entry ID: " + entryID + " is updated");
+                        Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                        startActivityForResult(startNewActivity, 10);
+
+                    }
+
                 }
                 else
                 {
@@ -125,7 +148,8 @@ public class UpdateInsulinActivity extends AppCompatActivity implements AdapterV
             @Override
             public void onClick(View v) {
                 Log.i(tag, "Deleting Entry ID: "+entryID);
-                DB.deleteEntry("insulinTable", entryID);
+                DB.deleteEntry("insulinTable0", entryID);
+                DB.deleteEntry("insulinTable1", entryID);
                 Log.i(tag, "Entry ID: "+entryID+" is deleted");
                 Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
                 startActivityForResult(startNewActivity,10);

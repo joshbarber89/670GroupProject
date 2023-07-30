@@ -22,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     RadioButton bloodInsulinLevelUnit1; // IU/mL
 
-    public static int BloodInsulinUnit_IUPerMilliLitre = 0;
+    public static int BloodInsulinUnit_uIUPerMilliLitre = 0;
 
     RadioButton bloodInsulinLevelUnit2; // pmol/L
 
@@ -49,10 +49,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         if (MainActivity.specificUserPrefs.getInt("bloodSugarUnits", BloodSugarUnit_mmolPerLitre) == BloodSugarUnit_mgPerDeciLitre)
             bloodSugarLevelUnit2.setChecked(true);
 
-        if (MainActivity.specificUserPrefs.getInt("bloodInsulinUnits", BloodInsulinUnit_IUPerMilliLitre) == BloodInsulinUnit_IUPerMilliLitre)
+        if (MainActivity.specificUserPrefs.getInt("bloodInsulinUnits", BloodInsulinUnit_uIUPerMilliLitre) == BloodInsulinUnit_uIUPerMilliLitre)
             bloodInsulinLevelUnit1.setChecked(true);
 
-        if (MainActivity.specificUserPrefs.getInt("bloodInsulinUnits", BloodInsulinUnit_IUPerMilliLitre) == BloodInsulinUnit_pmolPerLitre)
+        if (MainActivity.specificUserPrefs.getInt("bloodInsulinUnits", BloodInsulinUnit_uIUPerMilliLitre) == BloodInsulinUnit_pmolPerLitre)
             bloodInsulinLevelUnit2.setChecked(true);
 
         if (MainActivity.specificUserPrefs.getInt("playMusic", 0) == 0)
@@ -88,8 +88,8 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         }
         else if (v.getId() == R.id.insulinRadio1){
 
-            myEditor.putInt("bloodInsulinUnits", BloodInsulinUnit_IUPerMilliLitre);
-            MainActivity.selectedBloodInsulinUnit = BloodInsulinUnit_IUPerMilliLitre;
+            myEditor.putInt("bloodInsulinUnits", BloodInsulinUnit_uIUPerMilliLitre);
+            MainActivity.selectedBloodInsulinUnit = BloodInsulinUnit_uIUPerMilliLitre;
 
         }
         else if (v.getId() == R.id.insulinRadio2){

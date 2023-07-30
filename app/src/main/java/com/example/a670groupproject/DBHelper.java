@@ -21,7 +21,8 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("create table bloodSugarTable1(entryID integer primary key autoincrement, entryValue TEXT, dayEntry integer, monthEntry integer, yearEntry integer, hourEntry integer, minuteEntry integer, twentyFourHour integer, visibleEntry integer)");
         MyDB.execSQL("create table foodTable(entryID integer primary key autoincrement, entryValue TEXT, dayEntry integer, monthEntry integer, yearEntry integer, hourEntry integer, minuteEntry integer, twentyFourHour integer, visibleEntry integer)");
         MyDB.execSQL("create table exerciseTable(entryID integer primary key autoincrement, entryValue TEXT, dayEntry integer, monthEntry integer, yearEntry integer, hourEntry integer, minuteEntry integer, twentyFourHour integer, visibleEntry integer)");
-        MyDB.execSQL("create table insulinTable(entryID integer primary key autoincrement, entryValue TEXT, dayEntry integer, monthEntry integer, yearEntry integer, hourEntry integer, minuteEntry integer, twentyFourHour integer, visibleEntry integer)");
+        MyDB.execSQL("create table insulinTable0(entryID integer primary key autoincrement, entryValue TEXT, dayEntry integer, monthEntry integer, yearEntry integer, hourEntry integer, minuteEntry integer, twentyFourHour integer, visibleEntry integer)");
+        MyDB.execSQL("create table insulinTable1(entryID integer primary key autoincrement, entryValue TEXT, dayEntry integer, monthEntry integer, yearEntry integer, hourEntry integer, minuteEntry integer, twentyFourHour integer, visibleEntry integer)");
         MyDB.execSQL("create table medicationTable(entryID integer primary key autoincrement, entryValue TEXT, dayEntry integer, monthEntry integer, yearEntry integer, hourEntry integer, minuteEntry integer, twentyFourHour integer, visibleEntry integer)");
     }
 
@@ -32,7 +33,8 @@ public class DBHelper extends SQLiteOpenHelper {
         MyDB.execSQL("drop table if exists bloodSugarTable1");
         MyDB.execSQL("drop table if exists foodTable");
         MyDB.execSQL("drop table if exists exerciseTable");
-        MyDB.execSQL("drop table if exists insulinTable");
+        MyDB.execSQL("drop table if exists insulinTable0");
+        MyDB.execSQL("drop table if exists insulinTable1");
         MyDB.execSQL("drop table if exists medicationTable");
     }
 

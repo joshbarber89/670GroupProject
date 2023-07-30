@@ -131,8 +131,6 @@ public class LoginActivity extends AppCompatActivity {
             }
             myEditor2.apply();
 
-            MainActivity.firstTime = true;
-
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         } else {

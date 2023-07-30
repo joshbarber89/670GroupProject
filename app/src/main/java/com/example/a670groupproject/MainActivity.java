@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
-    String selected;
+    private static String selected = "Food";
 
     EditText dateText;
     EditText monthText;
@@ -67,12 +67,14 @@ public class MainActivity extends AppCompatActivity {
     private Button  insulinButton;
     private Button  addEntry;
 
+    public static String emailForSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         userPrefs = getSharedPreferences("globalUserPreferences", MODE_PRIVATE);
-        String emailForSettings = userPrefs.getString("emailAddress", null);
+        emailForSettings = userPrefs.getString("emailAddress", null);
 
         // Load previous settings based on the email address
         if (emailForSettings != null){
@@ -81,14 +83,14 @@ public class MainActivity extends AppCompatActivity {
 
             if (specificUserPrefs.getInt("login_count", 0) == 1 && firstTime){
                 myEditor.putInt("bloodSugarUnits", SettingsActivity.BloodSugarUnit_mmolPerLitre);
-                myEditor.putInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_IUPerMilliLitre);
+                myEditor.putInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_uIUPerMilliLitre);
                 myEditor.putInt("playMusic", 0);
                 myEditor.apply();
                 firstTime = false;
             }
             else{
                 selectedBloodSugarUnit = specificUserPrefs.getInt("bloodSugarUnits", SettingsActivity.BloodSugarUnit_mmolPerLitre);
-                selectedBloodInsulinUnit = specificUserPrefs.getInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_IUPerMilliLitre);
+                selectedBloodInsulinUnit = specificUserPrefs.getInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_uIUPerMilliLitre);
                 playMusic = specificUserPrefs.getInt("playMusic", 0);
             }
         }
@@ -144,8 +146,6 @@ public class MainActivity extends AppCompatActivity {
         monthText.setText(currentMonth);
         yearText = (EditText)findViewById(R.id.editTextYear);
         yearText.setText(currentYear);
-
-        selected = "Food";
 
         foodButton.setOnClickListener(new View.OnClickListener() {
                @Override
@@ -259,27 +259,27 @@ public class MainActivity extends AppCompatActivity {
                             case "Food":
                                 Log.d("main", "starting add food");
                                 startNewActivity = new Intent(getBaseContext(), AddFoodActivity.class);
-                                startActivityForResult(startNewActivity, 8);
+                                startActivityForResult(startNewActivity, 1);
                                 break;
                             case "Medication":
                                 Log.d("main", "starting add medication");
                                 startNewActivity = new Intent(getBaseContext(), AddMedicationActivity.class);
-                                startActivityForResult(startNewActivity, 9);
+                                startActivityForResult(startNewActivity, 2);
                                 break;
                             case "Exercise":
                                 Log.d("main", "starting add exercise");
                                 startNewActivity = new Intent(getBaseContext(), AddExerciseActivity.class);
-                                startActivityForResult(startNewActivity, 10);
+                                startActivityForResult(startNewActivity, 3);
                                 break;
                             case "BloodSugar":
                                 Log.d("main", "starting add blood sugar");
                                 startNewActivity = new Intent(getBaseContext(), AddBloodSugarActivity.class);
-                                startActivityForResult(startNewActivity, 11);
+                                startActivityForResult(startNewActivity, 4);
                                 break;
                             case "Insulin":
                                 Log.d("main", "starting add insulin");
                                 startNewActivity = new Intent(getBaseContext(), AddInsulinActivity.class);
-                                startActivityForResult(startNewActivity, 12);
+                                startActivityForResult(startNewActivity, 5);
                                 break;
                         }
                     }
@@ -297,16 +297,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (selected == "BloodSugar")
-            bloodSugarButton.performClick();
-        if (selected == "Insulin")
-            insulinButton.performClick();
-        if (selected == "Exercise")
-            exerciseButton.performClick();
-        if (selected == "Medication")
-            medicationButton.performClick();
-        if (selected == "Food")
-            foodButton.performClick();
+        if (selected != null) {
+            if (selected == "BloodSugar" && bloodSugarButton != null)
+                bloodSugarButton.performClick();
+            if (selected == "Insulin" && insulinButton != null)
+                insulinButton.performClick();
+            if (selected == "Exercise" && insulinButton != null)
+                exerciseButton.performClick();
+            if (selected == "Medication" && medicationButton != null)
+                medicationButton.performClick();
+            if (selected == "Food" && foodButton!= null)
+                foodButton.performClick();
+        }
 
     }
 
@@ -331,17 +333,17 @@ public class MainActivity extends AppCompatActivity {
             case R.id.settingsMenuButton:
                 Log.d("Toolbar", "Settings selected");
                 startNewActivity = new Intent(getBaseContext(), SettingsActivity.class);
-                startActivityForResult(startNewActivity,10);
+                startActivityForResult(startNewActivity,20);
                 break;
             case R.id.statsMenuButton:
                 Log.d("Toolbar", "Stats selected");
                 startNewActivity = new Intent(getBaseContext(), StatsPageActivity.class);
-                startActivityForResult(startNewActivity,11);
+                startActivityForResult(startNewActivity,21);
                 break;
             case R.id.aboutMenuButton:
                 Log.d("Toolbar", "About selected");
                 startNewActivity = new Intent(getBaseContext(), AboutActivity.class);
-                startActivityForResult(startNewActivity,12);
+                startActivityForResult(startNewActivity,22);
                 break;
         }
         return true;

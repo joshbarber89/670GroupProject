@@ -136,10 +136,27 @@ public class AddInsulinActivity extends AppCompatActivity implements AdapterView
                                                        Boolean inputValid = inputValidationInsulin(day, month, year, hour, minute, value);
                                                        if (inputValid ==true)
                                                        {
-                                                           DB.insertEntry("insulinTable",value,day,month,year,hour,minute,amPMValue);
-                                                           Log.i(tag, "insulin Entry Loaded into Database");
-                                                           Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                                                           startActivityForResult(startNewActivity,10);
+
+                                                           if (MainActivity.selectedBloodInsulinUnit == SettingsActivity.BloodInsulinUnit_uIUPerMilliLitre){
+                                                               DB.insertEntry("insulinTable0", value,day,month,year,hour,minute,amPMValue);
+
+                                                               DB.insertEntry("insulinTable1",(Float.parseFloat(value) * 6) + "",day,month,year,hour,minute,amPMValue);
+
+                                                               Log.i(tag, "insulin Entry Loaded into Database");
+                                                               Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                                                               startActivityForResult(startNewActivity,10);
+                                                           }
+                                                           else{
+                                                               DB.insertEntry("insulinTable1",value, day,month,year,hour,minute,amPMValue);
+
+                                                               DB.insertEntry("insulinTable0",(Float.parseFloat(value) / 6) + "",day,month,year,hour,minute,amPMValue);
+
+                                                               Log.i(tag, "insulin Entry Loaded into Database");
+                                                               Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                                                               startActivityForResult(startNewActivity,10);
+
+                                                           }
+
                                                        }
                                                        else
                                                        {
