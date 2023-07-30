@@ -52,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         if (MainActivity.specificUserPrefs.getInt("bloodInsulinUnits", BloodInsulinUnit_IUPerMilliLitre) == BloodInsulinUnit_IUPerMilliLitre)
             bloodInsulinLevelUnit1.setChecked(true);
 
-        if (MainActivity.specificUserPrefs.getInt("bloodInsulinUnits", BloodInsulinUnit_pmolPerLitre) == BloodInsulinUnit_pmolPerLitre)
+        if (MainActivity.specificUserPrefs.getInt("bloodInsulinUnits", BloodInsulinUnit_IUPerMilliLitre) == BloodInsulinUnit_pmolPerLitre)
             bloodInsulinLevelUnit2.setChecked(true);
 
         if (MainActivity.specificUserPrefs.getInt("playMusic", 0) == 0)

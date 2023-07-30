@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static int playMusic = 0;
 
+    public static boolean firstLogin = true;
+
     private Button foodButton;
     private Button medicationButton;
 
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         String emailForSettings = userPrefs.getString("emailAddress", null);
 
         // Load previous settings based on the email address
-        if (emailForSettings != null){
+        if (emailForSettings != null && firstLogin){
             specificUserPrefs = getSharedPreferences(emailForSettings, MODE_PRIVATE);
             SharedPreferences.Editor myEditor = specificUserPrefs.edit();
 
@@ -82,8 +84,10 @@ public class MainActivity extends AppCompatActivity {
                 myEditor.putInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_IUPerMilliLitre);
                 myEditor.putInt("playMusic", 0);
                 myEditor.apply();
+                firstLogin = false;
             }
             else{
+                firstLogin = false;
                 selectedBloodSugarUnit = specificUserPrefs.getInt("bloodSugarUnits", SettingsActivity.BloodSugarUnit_mmolPerLitre);
                 selectedBloodInsulinUnit = specificUserPrefs.getInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_IUPerMilliLitre);
                 playMusic = specificUserPrefs.getInt("playMusic", 0);
