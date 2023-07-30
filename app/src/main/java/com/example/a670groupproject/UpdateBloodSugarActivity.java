@@ -96,10 +96,26 @@ public class UpdateBloodSugarActivity extends AppCompatActivity implements Adapt
                 Boolean valid = inputValidationBloodSugar(day, month, year, hour, minute, value);
 
                 Log.i(tag, "Day: "+day+" month: "+month+" year: "+year);
-                DB.updateEntry("bloodSugarTable", entryID, value, day, month, year, hour, minute, amPMValue);
-                Log.i(tag, "Entry ID: "+entryID+" is updated");
-                Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                startActivityForResult(startNewActivity,10);
+
+                if (MainActivity.selectedBloodSugarUnit == SettingsActivity.BloodSugarUnit_mmolPerLitre) {
+
+                    DB.updateEntry("bloodSugarTable0", entryID, value, day, month, year, hour, minute, amPMValue);
+
+                    DB.insertEntry("bloodSugarTable1", (Float.parseFloat(value) * 18.018) + "", day, month, year, hour, minute, amPMValue);
+
+                    Log.i(tag, "Entry ID: " + entryID + " is updated");
+                    Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                    startActivityForResult(startNewActivity, 10);
+                }
+                else{
+                    DB.insertEntry("bloodSugarTable1", value, day, month, year, hour, minute, amPMValue);
+
+                    DB.insertEntry("bloodSugarTable0", (Float.parseFloat(value) * 0.0555) + "", day, month, year, hour, minute, amPMValue);
+
+                    Log.i(tag, "Entry ID: " + entryID + " is updated");
+                    Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                    startActivityForResult(startNewActivity, 10);
+                }
 
             }
         });
@@ -109,7 +125,11 @@ public class UpdateBloodSugarActivity extends AppCompatActivity implements Adapt
             @Override
             public void onClick(View v) {
                 Log.i(tag, "Deleting Entry ID: "+entryID);
-                DB.deleteEntry("bloodSugarTable", entryID);
+                if (MainActivity.selectedBloodSugarUnit == SettingsActivity.BloodSugarUnit_mmolPerLitre) {
+                    DB.deleteEntry("bloodSugarTable0", entryID);
+                }else{
+                    DB.deleteEntry("bloodSugarTable1", entryID);
+                }
                 Log.i(tag, "Entry ID: "+entryID+" is deleted");
                 Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
                 startActivityForResult(startNewActivity,10);

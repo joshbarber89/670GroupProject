@@ -115,10 +115,21 @@ public class LoginActivity extends AppCompatActivity {
     private void loginProcess(String emailAddress, String password) {
         if (DB.checkUsernameAndPassword(emailAddress, password)) {
 
-            SharedPreferences userPrefs = getSharedPreferences("userPreferences", MODE_PRIVATE);
+            SharedPreferences userPrefs = getSharedPreferences("globalUserPreferences", MODE_PRIVATE);
             SharedPreferences.Editor myEditor = userPrefs.edit();
             myEditor.putString("emailAddress", emailAddress);
             myEditor.apply();
+
+            // Track number of logins for that specific email, also check if first login or not.
+            SharedPreferences specificUserPrefs = getSharedPreferences(emailAddress, MODE_PRIVATE);
+            SharedPreferences.Editor myEditor2 = specificUserPrefs.edit();
+            if (specificUserPrefs.getInt("login_count", 0) == 0){
+                myEditor2.putInt("login_count", 1);
+            }
+            else{
+                myEditor2.putInt("login_count", specificUserPrefs.getInt("login_count", 0) + 1);
+            }
+            myEditor2.apply();
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);

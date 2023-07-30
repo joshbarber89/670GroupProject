@@ -136,10 +136,25 @@ public class AddBloodSugarActivity extends AppCompatActivity implements AdapterV
                   Boolean inputValid = inputValidationBloodSugar(day, month, year, hour, minute, value);
                   if (inputValid ==true)
                   {
-                      DB.insertEntry("bloodSugarTable",value,day,month,year,hour,minute,amPMValue);
-                      Log.i(tag, "Blood Sugar Entry Loaded into Database");
-                      Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                      startActivityForResult(startNewActivity,10);
+
+                      if (MainActivity.selectedBloodSugarUnit == SettingsActivity.BloodSugarUnit_mmolPerLitre) {
+                          DB.insertEntry("bloodSugarTable0", value, day, month, year, hour, minute, amPMValue);
+
+                          DB.insertEntry("bloodSugarTable1", (Float.parseFloat(value) * 18.018) + "", day, month, year, hour, minute, amPMValue);
+
+                          Log.i(tag, "Blood Sugar Entry Loaded into Database");
+                          Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                          startActivityForResult(startNewActivity, 10);
+                      }
+                      else{
+                          DB.insertEntry("bloodSugarTable1", value, day, month, year, hour, minute, amPMValue);
+
+                          DB.insertEntry("bloodSugarTable0", (Float.parseFloat(value) * 0.0555) + "", day, month, year, hour, minute, amPMValue);
+                          Log.i(tag, "Blood Sugar Entry Loaded into Database");
+                          Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                          startActivityForResult(startNewActivity, 10);
+                      }
+
                   }
                   else
                   {

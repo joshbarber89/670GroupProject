@@ -87,10 +87,10 @@
             android:id="@+id/bloodSugarReading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bloodSugarReadingDefaultText"
-            android:gravity="center"
             android:layout_weight="1"
             android:ems="10"
+            android:gravity="center"
+            android:hint="@string/bloodSugarReadingDefaultText"
             android:inputType="numberDecimal" />
     </LinearLayout>
 

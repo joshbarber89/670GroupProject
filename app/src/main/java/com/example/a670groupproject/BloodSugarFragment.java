@@ -87,7 +87,12 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
         }
         DB = new DBHelper(getActivity());
         Log.d("Blood Sugar Fragment", "Getting blood sugar records for date "+mParam1+"-"+mParam2+"-"+mParam3);
-        entryArray = DB.getEntries("bloodSugarTable", mParam1, mParam2, mParam3);
+
+        if (MainActivity.selectedBloodSugarUnit == SettingsActivity.BloodSugarUnit_mmolPerLitre)
+            entryArray = DB.getEntries("bloodSugarTable0", mParam1, mParam2, mParam3);
+        else
+            entryArray = DB.getEntries("bloodSugarTable1", mParam1, mParam2, mParam3);
+
         Log.d("Blood Sugar Fragment", "Entries Received from Database, displaying now");
         EntryAdapter entryAdapter = new EntryAdapter(getActivity());
         bloodSugarList = (ListView) view.findViewById(R.id.bloodSugarList);
@@ -163,4 +168,9 @@ public class BloodSugarFragment extends Fragment implements View.OnClickListener
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 }

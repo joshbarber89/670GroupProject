@@ -49,9 +49,47 @@ public class MainActivity extends AppCompatActivity {
     EditText monthText;
     EditText yearText;
 
+    public static SharedPreferences userPrefs;
+    public static SharedPreferences specificUserPrefs;
+
+    public static int selectedBloodSugarUnit = 0;
+    public static int selectedBloodInsulinUnit = 0;
+
+    public static int playMusic = 0;
+
+    private Button foodButton;
+    private Button medicationButton;
+
+    private Button exerciseButton;
+    private Button bloodSugarButton;
+    private Button  insulinButton;
+    private Button  addEntry;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userPrefs = getSharedPreferences("globalUserPreferences", MODE_PRIVATE);
+        String emailForSettings = userPrefs.getString("emailAddress", null);
+
+        // Load previous settings based on the email address
+        if (emailForSettings != null){
+            specificUserPrefs = getSharedPreferences(emailForSettings, MODE_PRIVATE);
+            SharedPreferences.Editor myEditor = specificUserPrefs.edit();
+
+            if (specificUserPrefs.getInt("login_count", 0) == 1){
+                myEditor.putInt("bloodSugarUnits", SettingsActivity.BloodSugarUnit_mmolPerLitre);
+                myEditor.putInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_IUPerMilliLitre);
+                myEditor.putInt("playMusic", 0);
+                myEditor.apply();
+            }
+            else{
+                selectedBloodSugarUnit = specificUserPrefs.getInt("bloodSugarUnits", SettingsActivity.BloodSugarUnit_mmolPerLitre);
+                selectedBloodInsulinUnit = specificUserPrefs.getInt("bloodInsulinUnits", SettingsActivity.BloodInsulinUnit_IUPerMilliLitre);
+                playMusic = specificUserPrefs.getInt("playMusic", 0);
+            }
+        }
+
         Calendar cal = Calendar.getInstance();
         cal.getTime();
         int yearInt = cal.get(Calendar.YEAR);
@@ -89,12 +127,12 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        Button foodButton = (Button) findViewById(R.id.foodButton);
-        Button medicationButton = (Button) findViewById(R.id.medicationButton);
-        Button exerciseButton = (Button) findViewById(R.id.exerciseButton);
-        Button bloodSugarButton = (Button) findViewById(R.id.bloodSugarButton);
-        Button insulinButton = (Button) findViewById(R.id.insulinButton);
-        Button addEntry = (Button) findViewById(R.id.addEntryButton);
+        foodButton = (Button) findViewById(R.id.foodButton);
+        medicationButton = (Button) findViewById(R.id.medicationButton);
+        exerciseButton = (Button) findViewById(R.id.exerciseButton);
+        bloodSugarButton = (Button) findViewById(R.id.bloodSugarButton);
+        insulinButton = (Button) findViewById(R.id.insulinButton);
+        addEntry = (Button) findViewById(R.id.addEntryButton);
 
 
         dateText = (EditText)findViewById(R.id.editTextDate);
@@ -218,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                             case "Food":
                                 Log.d("main", "starting add food");
                                 startNewActivity = new Intent(getBaseContext(), AddFoodActivity.class);
-                                startActivityForResult(startNewActivity, 10);
+                                startActivityForResult(startNewActivity, 9);
                                 break;
                             case "Medication":
                                 Log.d("main", "starting add medication");
@@ -250,6 +288,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (selected == "BloodSugar")
+            bloodSugarButton.performClick();
+        if (selected == "Insulin")
+            insulinButton.performClick();
+
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.toolbar);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
@@ -275,12 +324,12 @@ public class MainActivity extends AppCompatActivity {
             case R.id.statsMenuButton:
                 Log.d("Toolbar", "Stats selected");
                 startNewActivity = new Intent(getBaseContext(), StatsPageActivity.class);
-                startActivityForResult(startNewActivity,10);
+                startActivityForResult(startNewActivity,11);
                 break;
             case R.id.aboutMenuButton:
                 Log.d("Toolbar", "About selected");
                 startNewActivity = new Intent(getBaseContext(), AboutActivity.class);
-                startActivityForResult(startNewActivity,10);
+                startActivityForResult(startNewActivity,12);
                 break;
         }
         return true;

@@ -96,7 +96,14 @@ public class StatsPageActivity extends AppCompatActivity {
                   String year = yearText.getText().toString();
 
                   Log.d("stats", "Getting blood sugar records for date "+day+"-"+month+"-"+year);
-                  entryArray = DB.getEntries("bloodSugarTable", day, month, year);
+
+                  if (MainActivity.selectedBloodSugarUnit == SettingsActivity.BloodSugarUnit_mmolPerLitre) {
+                      entryArray = DB.getEntries("bloodSugarTable0", day, month, year);
+                  }
+                  else{
+                      entryArray = DB.getEntries("bloodSugarTable1", day, month, year);
+                  }
+
                   Log.d("stats", "Entries Received from Database, displaying now");
 
                   StatsQuery stats = new StatsQuery();
