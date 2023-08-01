@@ -56,7 +56,7 @@ public class UpdateBloodSugarActivityTest {
         assertTrue(updateBloodSugarHelper.update(entryID, day, month, year, hour, minute, value, amPMValue));
 
         // Verify that the correct updateEntry methods are called with the right parameters
-        verify(mockDB, times(1)).updateEntry("bloodSugarTable0", entryID, "6.0", day, month, year, hour, minute, amPMValue);
+        verify(mockDB, times(1)).updateEntry("bloodSugarTable0", entryID, (Float.parseFloat(value) * 0.0555) + "", day, month, year, hour, minute, amPMValue);
         verify(mockDB, times(1)).updateEntry("bloodSugarTable1", entryID, value, day, month, year, hour, minute, amPMValue);
     }
 
