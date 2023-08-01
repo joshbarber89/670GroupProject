@@ -18,9 +18,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private static DBHelper DB;
 
-    public static DBHelper getDBHelper() {
-        return DB;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
