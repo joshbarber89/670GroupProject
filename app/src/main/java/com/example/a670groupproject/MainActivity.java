@@ -345,6 +345,15 @@ public class MainActivity extends AppCompatActivity {
                 startNewActivity = new Intent(getBaseContext(), AboutActivity.class);
                 startActivityForResult(startNewActivity,22);
                 break;
+            case R.id.logoutMenuButton:
+                Log.d("Toolbar", "Logout");
+                SharedPreferences loginPrefs = getSharedPreferences("loginPreferences", MODE_PRIVATE);
+                SharedPreferences.Editor myEditor = loginPrefs.edit();
+                myEditor.putString("loggedOut", "true");
+                myEditor.apply();
+                startNewActivity = new Intent(getBaseContext(), LoginActivity.class);
+                startActivityForResult(startNewActivity,22);
+                break;
         }
         return true;
     }
