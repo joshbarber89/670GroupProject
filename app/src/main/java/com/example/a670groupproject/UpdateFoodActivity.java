@@ -21,6 +21,58 @@ import android.widget.Toast;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
+class UpdateFoodHelper {
+    private static final String tag = "UpdateFoodActivity";
+    private static final String TABLE = "foodTable";
+    protected DBHelper DB;
+    public boolean update(String entryID, String day, String month, String year, String hour, String minute, String value, String amPMValue) {
+        if (this.inputValidation(day, month, year, hour, minute, value)) {
+            Log.i(tag, "Day: "+day+" month: "+month+" year: "+year);
+            DB.updateEntry(TABLE, entryID, value, day, month, year, hour, minute, amPMValue);
+            Log.i(tag, "Entry ID: "+entryID+" is updated");
+            return true;
+        }
+        return false;
+    }
+    public boolean delete(String entryID) {
+        Log.i(tag, "Deleting Entry ID: " + entryID);
+        DB.deleteEntry(TABLE, entryID);
+        Log.i(tag, "Entry ID: " + entryID + " is deleted");
+        return true;
+    }
+    private boolean inputValidation(String day, String month, String year, String hour, String minute, String value)
+    {
+        boolean valid = true;
+
+        if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
+        {
+            Log.i(tag, "Invalid day in update blood sugar activity");
+            valid=false;
+        }
+        if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
+        {
+            Log.i(tag, "Invalid month in update blood sugar activity");
+            valid = false;
+        }
+        if (Integer.parseInt(hour)>12 ||Integer.parseInt(hour)<0)
+        {
+            Log.i(tag, "Invalid hour in update blood sugar activity");
+            valid = false;
+        }
+        if (Integer.parseInt(minute)>59 ||Integer.parseInt(minute)<0)
+        {
+            Log.i(tag, "Invalid minute in update blood sugar activity");
+            valid = false;
+        }
+        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
+        {
+            Log.i(tag, "Invalid formatting of day/month/year in update blood sugar activity");
+            valid = false;
+        }
+
+        return valid;
+    }
+}
 public class UpdateFoodActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String tag = "UpdateFoodActivity";
@@ -40,7 +92,7 @@ public class UpdateFoodActivity extends AppCompatActivity implements AdapterView
 
     String amPMValue;
 
-    private DBHelper DB;
+    protected UpdateFoodHelper ufh = new UpdateFoodHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +108,7 @@ public class UpdateFoodActivity extends AppCompatActivity implements AdapterView
         amPMValue = intent.getStringExtra("amPM");
 
         Log.i(tag, "Entry ID is : "+entryID+" entry value is "+entryValue+" entry hour is "+entryHour+" entry minute is "+entryMinute);
-        DB = new DBHelper(this);
+        ufh.DB = new DBHelper(this);
 
         setContentView(R.layout.activity_update_food);
         Spinner spinner = (Spinner) findViewById(R.id.amPMSelector);
@@ -93,11 +145,9 @@ public class UpdateFoodActivity extends AppCompatActivity implements AdapterView
                 String hour = foodHour.getText().toString();
                 String minute = foodMinute.getText().toString();
                 String amPMValue = spinner.getSelectedItem().toString();
-                Boolean valid = inputValidationFood(day, month, year, hour, minute, value);
-                if (valid==true) {
-                    Log.i(tag, "Day: " + day + " month: " + month + " year: " + year);
-                    DB.updateEntry("foodTable", entryID, value, day, month, year, hour, minute, amPMValue);
-                    Log.i(tag, "Entry ID: " + entryID + " is updated");
+                boolean valid = ufh.update(entryID, day, month, year, hour, minute, value, amPMValue);
+                if (valid)
+                {
                     Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
                     startActivityForResult(startNewActivity, 10);
                 }
@@ -124,9 +174,7 @@ public class UpdateFoodActivity extends AppCompatActivity implements AdapterView
         deleteFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(tag, "Deleting Entry ID: "+entryID);
-                DB.deleteEntry("foodTable", entryID);
-                Log.i(tag, "Entry ID: "+entryID+" is deleted");
+                ufh.delete(entryID);
                 Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
                 startActivityForResult(startNewActivity,10);
             }
@@ -142,38 +190,5 @@ public class UpdateFoodActivity extends AppCompatActivity implements AdapterView
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         amPMValue = "AM";
-    }
-
-    public boolean inputValidationFood(String day, String month, String year, String hour, String minute, String value)
-    {
-        Boolean valid = true;
-        DecimalFormat df = new DecimalFormat();
-
-        if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
-        {
-            Log.i(tag, "Invalid day in update food activity");
-            valid=false;
-        }
-        if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
-        {
-            Log.i(tag, "Invalid month in update food activity");
-            valid = false;
-        }
-        if (Integer.parseInt(hour)>12 ||Integer.parseInt(hour)<0)
-        {
-            Log.i(tag, "Invalid hour in update food activity");
-            valid = false;
-        }
-        if (Integer.parseInt(minute)>59 ||Integer.parseInt(minute)<0)
-        {
-            Log.i(tag, "Invalid minute in update food activity");
-            valid = false;
-        }
-        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
-        {
-            Log.i(tag, "Invalid formatting of day/month/year in update food activity");
-            valid = false;
-        }
-        return valid;
     }
 }

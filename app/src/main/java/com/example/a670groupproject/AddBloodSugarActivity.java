@@ -23,7 +23,75 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+class AddBloodSugarHelper {
 
+    private static final String tag = "AddBloodSugarActivity";
+    private static final String TABLE1 = "bloodSugarTable0";
+    private static final String TABLE2 = "bloodSugarTable1";
+    protected DBHelper DB;
+
+    public boolean insert(String day, String month, String year, String hour, String minute, String value, String amPMValue) {
+        if (this.inputValidation(day, month, year, hour, minute, value)) {
+
+            if (MainActivity.selectedBloodSugarUnit == SettingsActivity.BloodSugarUnit_mmolPerLitre) {
+                DB.insertEntry(TABLE1, value, day, month, year, hour, minute, amPMValue);
+                DB.insertEntry(TABLE2, (Float.parseFloat(value) * 18.018) + "", day, month, year, hour, minute, amPMValue);
+            } else {
+                DB.insertEntry(TABLE2, value, day, month, year, hour, minute, amPMValue);
+                DB.insertEntry(TABLE1, (Float.parseFloat(value) * 0.0555) + "", day, month, year, hour, minute, amPMValue);
+            }
+            Log.i(tag, "Blood Sugar Entry Loaded into Database");
+            return true;
+        }
+        return false;
+    }
+    private boolean inputValidation(String day, String month, String year, String hour, String minute, String value)
+    {
+        boolean valid = true;
+        DecimalFormat df = new DecimalFormat();
+
+        if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
+        {
+            Log.i(tag, "Invalid day in update blood sugar activity");
+            valid=false;
+        }
+        if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
+        {
+            Log.i(tag, "Invalid month in update blood sugar activity");
+            valid = false;
+        }
+        if (Integer.parseInt(hour)>12 ||Integer.parseInt(hour)<0)
+        {
+            Log.i(tag, "Invalid hour in update blood sugar activity");
+            valid = false;
+        }
+        if (Integer.parseInt(minute)>59 ||Integer.parseInt(minute)<0)
+        {
+            Log.i(tag, "Invalid minute in update blood sugar activity");
+            valid = false;
+        }
+        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
+        {
+            Log.i(tag, "Invalid formatting of day/month/year in update blood sugar activity");
+            valid = false;
+        }
+        try {
+            df.parse(value).floatValue();
+        } catch (ParseException e)
+        {
+            Log.i(tag, "Invalid formatting of value in update blood sugar activity");
+            valid = false;
+        }
+        return valid;
+    }
+
+    public String datetimeModification(int value) {
+        if (value<10) {
+             return "0"+value;
+        }
+        return String.valueOf(value);
+    }
+}
 public class AddBloodSugarActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String tag = "AddBloodSugarActivity";
@@ -34,12 +102,11 @@ public class AddBloodSugarActivity extends AppCompatActivity implements AdapterV
     EditText bloodSugarHour;
     EditText bloodSugarMinute;
     String amPMValue;
-    private DBHelper DB;
+    AddBloodSugarHelper absh = new AddBloodSugarHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         Calendar cal = Calendar.getInstance();
         cal.getTime();
@@ -49,53 +116,7 @@ public class AddBloodSugarActivity extends AppCompatActivity implements AdapterV
         int hourInt = cal.get(Calendar.HOUR);
         int minuteInt = cal.get(Calendar.MINUTE);
 
-        String currentYear = Integer.toString(yearInt);
-        String currentMonth;
-        String currentDay;
-        String currentHour;
-        String currentMinute;
-
-        if (monthInt<10)
-        {
-            currentMonth = "0"+Integer.toString(monthInt);
-        }
-        else
-        {
-            currentMonth = Integer.toString(monthInt);
-        }
-
-        if (dayInt<10)
-        {
-            currentDay = "0"+Integer.toString(dayInt);
-        }
-        else
-        {
-            currentDay = Integer.toString(dayInt);
-        }
-
-
-
-        if (hourInt<10)
-        {
-            currentHour = "0"+Integer.toString(hourInt);
-        }
-        else
-        {
-            currentHour = Integer.toString(hourInt);
-        }
-
-
-
-        if (minuteInt<10)
-        {
-            currentMinute = "0"+Integer.toString(minuteInt);
-        }
-        else
-        {
-            currentMinute = Integer.toString(minuteInt);
-        }
-
-        DB = new DBHelper(this);
+        absh.DB = new DBHelper(this);
         setContentView(R.layout.activity_add_blood_sugar);
         Spinner spinner = (Spinner) findViewById(R.id.amPMSelector);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -107,15 +128,15 @@ public class AddBloodSugarActivity extends AppCompatActivity implements AdapterV
         Button submitBloodSugarButton = (Button) findViewById(R.id.submitBloodSugarButton);
 
         bloodSugarDay = (EditText)findViewById(R.id.bloodSugarDay);
-        bloodSugarDay.setText(currentDay);
+        bloodSugarDay.setText(absh.datetimeModification(dayInt));
         bloodSugarMonth = (EditText)findViewById(R.id.bloodSugarMonth);
-        bloodSugarMonth.setText(currentMonth);
+        bloodSugarMonth.setText(absh.datetimeModification(monthInt));
         bloodSugarYear = (EditText)findViewById(R.id.bloodSugarYear);
-        bloodSugarYear.setText(currentYear);
+        bloodSugarYear.setText(String.valueOf(yearInt));
         bloodSugarHour = (EditText)findViewById(R.id.bloodSugarHour);
-        bloodSugarHour.setText(currentHour);
+        bloodSugarHour.setText(absh.datetimeModification(hourInt));
         bloodSugarMinute = (EditText)findViewById(R.id.bloodSugarMinute);
-        bloodSugarMinute.setText(currentMinute);
+        bloodSugarMinute.setText(absh.datetimeModification(minuteInt));
         submitBloodSugarButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
@@ -133,28 +154,10 @@ public class AddBloodSugarActivity extends AppCompatActivity implements AdapterV
                   String hour = bloodSugarHour.getText().toString();
                   String minute = bloodSugarMinute.getText().toString();
                   String amPMValue = spinner.getSelectedItem().toString();
-                  Boolean inputValid = inputValidationBloodSugar(day, month, year, hour, minute, value);
-                  if (inputValid ==true)
-                  {
-
-                      if (MainActivity.selectedBloodSugarUnit == SettingsActivity.BloodSugarUnit_mmolPerLitre) {
-                          DB.insertEntry("bloodSugarTable0", value, day, month, year, hour, minute, amPMValue);
-
-                          DB.insertEntry("bloodSugarTable1", (Float.parseFloat(value) * 18.018) + "", day, month, year, hour, minute, amPMValue);
-
-                          Log.i(tag, "Blood Sugar Entry Loaded into Database");
-                          Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                          startActivityForResult(startNewActivity, 10);
-                      }
-                      else{
-                          DB.insertEntry("bloodSugarTable1", value, day, month, year, hour, minute, amPMValue);
-
-                          DB.insertEntry("bloodSugarTable0", (Float.parseFloat(value) * 0.0555) + "", day, month, year, hour, minute, amPMValue);
-                          Log.i(tag, "Blood Sugar Entry Loaded into Database");
-                          Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                          startActivityForResult(startNewActivity, 10);
-                      }
-
+                  boolean inputValid = absh.insert(day, month, year, hour, minute, value, amPMValue);
+                  if (inputValid) {
+                      Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                      startActivityForResult(startNewActivity, 10);
                   }
                   else
                   {
@@ -188,37 +191,4 @@ public class AddBloodSugarActivity extends AppCompatActivity implements AdapterV
         amPMValue = "AM";
     }
 
-    public boolean inputValidationBloodSugar(String day, String month, String year, String hour, String minute, String value)
-    {
-        Boolean valid = true;
-        DecimalFormat df = new DecimalFormat();
-
-        if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
-        {
-            valid=false;
-        }
-        if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
-        {
-            valid = false;
-        }
-        if (Integer.parseInt(hour)>12 ||Integer.parseInt(hour)<0)
-        {
-            valid = false;
-        }
-        if (Integer.parseInt(minute)>59 ||Integer.parseInt(minute)<0)
-        {
-            valid = false;
-        }
-        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
-        {
-            valid = false;
-        }
-        try {
-            df.parse(value).floatValue();
-        } catch (ParseException e)
-        {
-            valid = false;
-        }
-        return valid;
-    }
 }

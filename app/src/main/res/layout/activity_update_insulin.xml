@@ -91,7 +91,7 @@
             android:ems="10"
             android:gravity="center"
             android:hint="@string/insulinDefaultText"
-            android:inputType="text" />
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <LinearLayout

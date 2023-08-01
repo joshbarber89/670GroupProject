@@ -24,6 +24,63 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+class AddFoodHelper {
+
+    private static final String tag = "AddFoodActivity";
+    private static final String TABLE = "foodTable";
+
+    protected DBHelper DB;
+
+    public boolean insert(String day, String month, String year, String hour, String minute, String value, String amPMValue) {
+        if (this.inputValidation(day, month, year, hour, minute, value)) {
+
+            DB.insertEntry(TABLE, value, day, month, year, hour, minute, amPMValue);
+
+            Log.i(tag, TABLE + " Entry Loaded into Database");
+            return true;
+        }
+        return false;
+    }
+    private boolean inputValidation(String day, String month, String year, String hour, String minute, String value)
+    {
+        boolean valid = true;
+
+        if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
+        {
+            Log.i(tag, "Invalid day in update blood sugar activity");
+            valid=false;
+        }
+        if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
+        {
+            Log.i(tag, "Invalid month in update blood sugar activity");
+            valid = false;
+        }
+        if (Integer.parseInt(hour)>12 ||Integer.parseInt(hour)<0)
+        {
+            Log.i(tag, "Invalid hour in update blood sugar activity");
+            valid = false;
+        }
+        if (Integer.parseInt(minute)>59 ||Integer.parseInt(minute)<0)
+        {
+            Log.i(tag, "Invalid minute in update blood sugar activity");
+            valid = false;
+        }
+        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
+        {
+            Log.i(tag, "Invalid formatting of day/month/year in update blood sugar activity");
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    public String datetimeModification(int value) {
+        if (value<10) {
+            return "0"+value;
+        }
+        return String.valueOf(value);
+    }
+}
 public class AddFoodActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String tag = "AddFoodActivity";
@@ -34,12 +91,10 @@ public class AddFoodActivity extends AppCompatActivity implements AdapterView.On
     EditText foodHour;
     EditText foodMinute;
     String amPMValue;
-    private DBHelper DB;
-
+    AddFoodHelper afh = new AddFoodHelper();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         Calendar cal = Calendar.getInstance();
         cal.getTime();
@@ -49,53 +104,7 @@ public class AddFoodActivity extends AppCompatActivity implements AdapterView.On
         int hourInt = cal.get(Calendar.HOUR);
         int minuteInt = cal.get(Calendar.MINUTE);
 
-        String currentYear = Integer.toString(yearInt);
-        String currentMonth;
-        String currentDay;
-        String currentHour;
-        String currentMinute;
-
-        if (monthInt<10)
-        {
-            currentMonth = "0"+Integer.toString(monthInt);
-        }
-        else
-        {
-            currentMonth = Integer.toString(monthInt);
-        }
-
-        if (dayInt<10)
-        {
-            currentDay = "0"+Integer.toString(dayInt);
-        }
-        else
-        {
-            currentDay = Integer.toString(dayInt);
-        }
-
-
-
-        if (hourInt<10)
-        {
-            currentHour = "0"+Integer.toString(hourInt);
-        }
-        else
-        {
-            currentHour = Integer.toString(hourInt);
-        }
-
-
-
-        if (minuteInt<10)
-        {
-            currentMinute = "0"+Integer.toString(minuteInt);
-        }
-        else
-        {
-            currentMinute = Integer.toString(minuteInt);
-        }
-
-        DB = new DBHelper(this);
+        afh.DB = new DBHelper(this);
         setContentView(R.layout.activity_add_food);
         Spinner spinner = (Spinner) findViewById(R.id.amPMSelector);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -107,15 +116,15 @@ public class AddFoodActivity extends AppCompatActivity implements AdapterView.On
         Button submitFoodButton = (Button) findViewById(R.id.submitfoodButton);
 
         foodDay = (EditText)findViewById(R.id.foodDay);
-        foodDay.setText(currentDay);
+        foodDay.setText(afh.datetimeModification(dayInt));
         foodMonth = (EditText)findViewById(R.id.foodMonth);
-        foodMonth.setText(currentMonth);
+        foodMonth.setText(afh.datetimeModification(monthInt));
         foodYear = (EditText)findViewById(R.id.foodYear);
-        foodYear.setText(currentYear);
+        foodYear.setText(String.valueOf(yearInt));
         foodHour = (EditText)findViewById(R.id.foodHour);
-        foodHour.setText(currentHour);
+        foodHour.setText(afh.datetimeModification(hourInt));
         foodMinute = (EditText)findViewById(R.id.foodMinute);
-        foodMinute.setText(currentMinute);
+        foodMinute.setText(afh.datetimeModification(minuteInt));
         submitFoodButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -133,16 +142,12 @@ public class AddFoodActivity extends AppCompatActivity implements AdapterView.On
                     String hour = foodHour.getText().toString();
                     String minute = foodMinute.getText().toString();
                     String amPMValue = spinner.getSelectedItem().toString();
-                    Boolean inputValid = inputValidationFood(day, month, year, hour, minute, value);
-                    if (inputValid ==true)
-                    {
-                        DB.insertEntry("foodTable",value,day,month,year,hour,minute,amPMValue);
-                        Log.i(tag, "Food Entry Loaded into Database");
+                    boolean inputValid = afh.insert(day, month, year, hour, minute, value, amPMValue);
+                    if (inputValid) {
                         Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
                         startActivityForResult(startNewActivity,10);
                     }
-                    else
-                    {
+                    else {
                         Log.i(tag, "Invalid input in add food activity");
                         AlertDialog.Builder customDialog = new AlertDialog.Builder(AddFoodActivity.this);
                         LayoutInflater inflater = AddFoodActivity.this.getLayoutInflater();
@@ -171,38 +176,5 @@ public class AddFoodActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
         amPMValue = "AM";
-    }
-
-    public boolean inputValidationFood(String day, String month, String year, String hour, String minute, String value)
-    {
-        Boolean valid = true;
-        DecimalFormat df = new DecimalFormat();
-
-        if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
-        {
-            Log.i(tag, "Invalid day in update food activity");
-            valid=false;
-        }
-        if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
-        {
-            Log.i(tag, "Invalid month in update food activity");
-            valid = false;
-        }
-        if (Integer.parseInt(hour)>12 ||Integer.parseInt(hour)<0)
-        {
-            Log.i(tag, "Invalid hour in update food activity");
-            valid = false;
-        }
-        if (Integer.parseInt(minute)>59 ||Integer.parseInt(minute)<0)
-        {
-            Log.i(tag, "Invalid minute in update food activity");
-            valid = false;
-        }
-        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
-        {
-            Log.i(tag, "Invalid formatting of day/month/year in update food activity");
-            valid = false;
-        }
-        return valid;
     }
 }

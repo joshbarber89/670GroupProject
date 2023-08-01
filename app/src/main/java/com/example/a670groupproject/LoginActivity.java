@@ -17,6 +17,10 @@ public class LoginActivity extends AppCompatActivity {
     public static final String tag = "LoginActivity";
 
     private static DBHelper DB;
+
+    public static DBHelper getDBHelper() {
+        return DB;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void loadUserData() {
+    protected void loadUserData() {
         CheckBox rememberMeCheckBox = (CheckBox) findViewById(R.id.loginActivityCheckboxRememberMe);
         SharedPreferences loginPrefs = getSharedPreferences("loginPreferences", MODE_PRIVATE);
         String rememberMeString = loginPrefs.getString("rememberMe", "false");
@@ -112,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void loginProcess(String emailAddress, String password) {
+    protected void loginProcess(String emailAddress, String password) {
         if (DB.checkUsernameAndPassword(emailAddress, password)) {
 
             SharedPreferences userPrefs = getSharedPreferences("globalUserPreferences", MODE_PRIVATE);
