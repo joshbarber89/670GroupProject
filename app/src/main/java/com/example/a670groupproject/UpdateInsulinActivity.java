@@ -20,6 +20,68 @@ import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
+class UpdateInsulinHelper {
+    private static final String tag = "UpdateInsulinActivity";
+    private static final String TABLE1 = "insulinTable0";
+    private static final String TABLE2 = "insulinTable1";
+
+    protected DBHelper DB;
+    public boolean update(String entryID, String day, String month, String year, String hour, String minute, String value, String amPMValue) {
+        if (this.inputValidation(day, month, year, hour, minute, value)) {
+            Log.i(tag, "Day: " + day + " month: " + month + " year: " + year);
+            if (MainActivity.selectedBloodInsulinUnit == SettingsActivity.BloodInsulinUnit_uIUPerMilliLitre) {
+                DB.updateEntry(TABLE1, entryID, value, day, month, year, hour, minute, amPMValue);
+                DB.updateEntry(TABLE2, entryID, (Float.parseFloat(value) * 6) + "", day, month, year, hour, minute, amPMValue);
+            }
+            else{
+                DB.updateEntry(TABLE1, entryID, (Float.parseFloat(value) / 6) + "", day, month, year, hour, minute, amPMValue);
+                DB.updateEntry(TABLE2, entryID, value, day, month, year, hour, minute, amPMValue);
+            }
+            Log.i(tag, "Entry ID: " + entryID + " is updated");
+            return true;
+        }
+        return false;
+    }
+    public boolean delete(String entryID) {
+        Log.i(tag, "Deleting Entry ID: " + entryID);
+        DB.deleteEntry(TABLE1, entryID);
+        DB.deleteEntry(TABLE2, entryID);
+        Log.i(tag, "Entry ID: " + entryID + " is deleted");
+        return true;
+    }
+    private boolean inputValidation(String day, String month, String year, String hour, String minute, String value)
+    {
+        boolean valid = true;
+
+        if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
+        {
+            Log.i(tag, "Invalid day in update blood sugar activity");
+            valid=false;
+        }
+        if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
+        {
+            Log.i(tag, "Invalid month in update blood sugar activity");
+            valid = false;
+        }
+        if (Integer.parseInt(hour)>12 ||Integer.parseInt(hour)<0)
+        {
+            Log.i(tag, "Invalid hour in update blood sugar activity");
+            valid = false;
+        }
+        if (Integer.parseInt(minute)>59 ||Integer.parseInt(minute)<0)
+        {
+            Log.i(tag, "Invalid minute in update blood sugar activity");
+            valid = false;
+        }
+        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
+        {
+            Log.i(tag, "Invalid formatting of day/month/year in update blood sugar activity");
+            valid = false;
+        }
+
+        return valid;
+    }
+}
 
 public class UpdateInsulinActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -40,7 +102,7 @@ public class UpdateInsulinActivity extends AppCompatActivity implements AdapterV
 
     String amPMValue;
 
-    private DBHelper DB;
+    protected UpdateInsulinHelper uih = new UpdateInsulinHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +118,7 @@ public class UpdateInsulinActivity extends AppCompatActivity implements AdapterV
         amPMValue = intent.getStringExtra("amPM");
 
         Log.i(tag, "Entry ID is : "+entryID+" entry value is "+entryValue+" entry hour is "+entryHour+" entry minute is "+entryMinute);
-        DB = new DBHelper(this);
+        uih.DB = new DBHelper(this);
 
         setContentView(R.layout.activity_update_insulin);
         Spinner spinner = (Spinner) findViewById(R.id.amPMSelector);
@@ -93,36 +155,11 @@ public class UpdateInsulinActivity extends AppCompatActivity implements AdapterV
                 String hour = insulinHour.getText().toString();
                 String minute = insulinMinute.getText().toString();
                 String amPMValue = spinner.getSelectedItem().toString();
-                Boolean valid = inputValidationInsulin(day, month, year, hour, minute, value);
-                if (valid==true) {
-
-                    if (MainActivity.selectedBloodInsulinUnit == SettingsActivity.BloodInsulinUnit_uIUPerMilliLitre) {
-
-                        Log.i(tag, "Day: " + day + " month: " + month + " year: " + year);
-
-                        DB.updateEntry("insulinTable0", entryID, value, day, month, year, hour, minute, amPMValue);
-
-                        DB.updateEntry("insulinTable1", entryID, (Float.parseFloat(value) * 6) + "", day, month, year, hour, minute, amPMValue);
-
-                        Log.i(tag, "Entry ID: " + entryID + " is updated");
-                        Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                        startActivityForResult(startNewActivity, 10);
-
-                    }
-                    else{
-
-                        Log.i(tag, "Day: " + day + " month: " + month + " year: " + year);
-
-                        DB.updateEntry("insulinTable0", entryID, (Float.parseFloat(value) / 6) + "", day, month, year, hour, minute, amPMValue);
-
-                        DB.updateEntry("insulinTable1", entryID, value, day, month, year, hour, minute, amPMValue);
-
-                        Log.i(tag, "Entry ID: " + entryID + " is updated");
-                        Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
-                        startActivityForResult(startNewActivity, 10);
-
-                    }
-
+                boolean valid = uih.update(entryID, day, month, year, hour, minute, value, amPMValue);
+                if (valid)
+                {
+                    Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
+                    startActivityForResult(startNewActivity, 10);
                 }
                 else
                 {
@@ -147,10 +184,7 @@ public class UpdateInsulinActivity extends AppCompatActivity implements AdapterV
         deleteInsulinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(tag, "Deleting Entry ID: "+entryID);
-                DB.deleteEntry("insulinTable0", entryID);
-                DB.deleteEntry("insulinTable1", entryID);
-                Log.i(tag, "Entry ID: "+entryID+" is deleted");
+                uih.delete(entryID);
                 Intent startNewActivity = new Intent(getBaseContext(), MainActivity.class);
                 startActivityForResult(startNewActivity,10);
             }
@@ -168,36 +202,4 @@ public class UpdateInsulinActivity extends AppCompatActivity implements AdapterV
         amPMValue = "AM";
     }
 
-    public boolean inputValidationInsulin(String day, String month, String year, String hour, String minute, String value)
-    {
-        Boolean valid = true;
-        DecimalFormat df = new DecimalFormat();
-
-        if (Integer.parseInt(day)>31 ||Integer.parseInt(day)<1)
-        {
-            Log.i(tag, "Invalid day in update insulin activity");
-            valid=false;
-        }
-        if (Integer.parseInt(month)>12 ||Integer.parseInt(month)<1)
-        {
-            Log.i(tag, "Invalid month in update insulin activity");
-            valid = false;
-        }
-        if (Integer.parseInt(hour)>12 ||Integer.parseInt(hour)<0)
-        {
-            Log.i(tag, "Invalid hour in update insulin activity");
-            valid = false;
-        }
-        if (Integer.parseInt(minute)>59 ||Integer.parseInt(minute)<0)
-        {
-            Log.i(tag, "Invalid minute in update insulin activity");
-            valid = false;
-        }
-        if (month.length() !=2 || day.length() !=2 || minute.length() !=2 || year.length() !=4)
-        {
-            Log.i(tag, "Invalid formatting of day/month/year in update insulin activity");
-            valid = false;
-        }
-        return valid;
-    }
 }

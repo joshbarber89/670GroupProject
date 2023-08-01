@@ -9,9 +9,9 @@ import android.util.Log;
 import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
-    public static final String DBNAME = "Login.db";
+    public static final String DBNAME = "app.db";
     public DBHelper(Context context) {
-        super(context, "Login.db", null, 1);
+        super(context, DBNAME, null, 1);
     }
 
     @Override
