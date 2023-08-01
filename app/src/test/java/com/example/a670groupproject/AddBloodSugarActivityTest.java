@@ -28,6 +28,9 @@ public class AddBloodSugarActivityTest {
         String value = "6.5"; // Some valid value
         String amPMValue = "AM";
 
+        // Set the selected blood sugar unit to mmolPerLitre
+        MainActivity.selectedBloodSugarUnit = SettingsActivity.BloodSugarUnit_mmolPerLitre;
+
         assertTrue(addBloodSugarHelper.insert(day, month, year, hour, minute, value, amPMValue));
 
         // Verify that the correct insertEntry method is called with the right parameters
@@ -45,7 +48,9 @@ public class AddBloodSugarActivityTest {
         String value = "120"; // Some valid value
         String amPMValue = "AM";
 
-        addBloodSugarHelper.DB = mockDB;
+        // Set the selected blood sugar unit to mgPerDeciLitre
+        MainActivity.selectedBloodSugarUnit = SettingsActivity.BloodSugarUnit_mgPerDeciLitre;
+
         assertTrue(addBloodSugarHelper.insert(day, month, year, hour, minute, value, amPMValue));
 
         // Verify that the correct insertEntry method is called with the right parameters
