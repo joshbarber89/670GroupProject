@@ -66,12 +66,10 @@
             android:onClick="onRadioButtonClicked"
             android:text="@string/settingsActivityTextViewBloodInsulinLevelUnits2nd" />
     </RadioGroup>
-    <Switch
-        android:id="@+id/musicSwitch"
+    <Button
+        android:id="@+id/musicButton"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_row="1"
-        android:layout_column="0"
         android:gravity="fill"
         android:text="@string/playRelaxingMusic" />
 </LinearLayout>

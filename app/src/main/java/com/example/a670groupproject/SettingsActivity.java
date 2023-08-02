@@ -3,12 +3,13 @@ package com.example.a670groupproject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.Switch;
+
+import java.io.IOException;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,9 +29,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     public static int BloodInsulinUnit_pmolPerLitre = 1;
 
-    Switch musicSwitch;     // play or not play relaxing music.
+    Button musicButton;     // play or not play relaxing music.
 
     private static String tag = "SettingsActivity";
+
+    MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -41,7 +44,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         bloodSugarLevelUnit2 = findViewById(R.id.bloodSugarRadio2);
         bloodInsulinLevelUnit1 = findViewById(R.id.insulinRadio1);
         bloodInsulinLevelUnit2 = findViewById(R.id.insulinRadio2);
-        musicSwitch = findViewById(R.id.musicSwitch);
+        musicButton = findViewById(R.id.musicButton);
+
+        mp = MediaPlayer.create(this, R.raw.music);
 
         if (MainActivity.specificUserPrefs.getInt("bloodSugarUnits", BloodSugarUnit_mmolPerLitre) == BloodSugarUnit_mmolPerLitre)
             bloodSugarLevelUnit1.setChecked(true);
@@ -55,17 +60,17 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         if (MainActivity.specificUserPrefs.getInt("bloodInsulinUnits", BloodInsulinUnit_uIUPerMilliLitre) == BloodInsulinUnit_pmolPerLitre)
             bloodInsulinLevelUnit2.setChecked(true);
 
-        if (MainActivity.specificUserPrefs.getInt("playMusic", 0) == 0)
-            musicSwitch.setChecked(false);
-        else{
-            musicSwitch.setChecked(true);
+        for(MediaPlayer mediaPlayer : ActiveMedia.mediaPlayers) {
+            if (mediaPlayer.isPlaying()) {
+                musicButton.setText(R.string.stopRelaxingMusic);
+            }
         }
 
         bloodSugarLevelUnit1.setOnClickListener(this);
         bloodSugarLevelUnit2.setOnClickListener(this);
         bloodInsulinLevelUnit1.setOnClickListener(this);
         bloodInsulinLevelUnit2.setOnClickListener(this);
-        musicSwitch.setOnClickListener(this);
+        musicButton.setOnClickListener(this);
 
     }
 
@@ -98,18 +103,27 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             MainActivity.selectedBloodInsulinUnit = BloodInsulinUnit_pmolPerLitre;
 
         }
-        else if (v.getId() == R.id.musicSwitch){
+        else if (v.getId() == R.id.musicButton){
 
-            String state = musicSwitch.getStateDescription().toString();
-            Log.i(tag, "Turning " + state + " music!");
+            boolean isplaying = false;
 
-            if (state.equals("ON")){
-                myEditor.putInt("playMusic", 1);
-                MainActivity.playMusic = 1;
+            for(MediaPlayer mediaPlayer : ActiveMedia.mediaPlayers){
+
+                if(mediaPlayer.isPlaying()){
+                    //there is an active media player
+                    isplaying = true;
+                    mediaPlayer.pause();
+
+                    ActiveMedia.mediaPlayers.remove(mediaPlayer);
+                    musicButton.setText(R.string.playRelaxingMusic);
+                }
+
             }
-            else{
-                myEditor.putInt("playMusic", 0);
-                MainActivity.playMusic = 0;
+
+            if(!isplaying){
+                mp.start();
+                ActiveMedia.mediaPlayers.add(mp);
+                musicButton.setText(R.string.stopRelaxingMusic);
             }
 
         }
