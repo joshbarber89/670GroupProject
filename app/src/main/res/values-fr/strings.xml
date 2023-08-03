@@ -21,7 +21,7 @@
     <string name="settingsActivityTextViewBloodSugarLevelUnits1st">mmol/L</string>
     <string name="settingsActivityTextViewBloodSugarLevelUnits2nd">mg/dL</string>
     <string name="settingsActivityTextViewBloodInsulinLevelUnits">Unités de concentration d’insuline dans le sang</string>
-    <string name="settingsActivityTextViewBloodInsulinLevelUnits1st">μIU/mL</string>
+    <string name="settingsActivityTextViewBloodInsulinLevelUnits1st">uIU/mL</string>
     <string name="settingsActivityTextViewBloodInsulinLevelUnits2nd">pmol/L</string>
     <string name="playRelaxingMusic">Écoutez de la musique relaxante</string>
     <string name="stopRelaxingMusic">Arrêtez la musique relaxante</string>

@@ -26,7 +26,7 @@
     <string name="settingsActivityTextViewBloodSugarLevelUnits1st">mmol/L</string>
     <string name="settingsActivityTextViewBloodSugarLevelUnits2nd">mg/dL</string>
     <string name="settingsActivityTextViewBloodInsulinLevelUnits">Blood Insulin Level Units</string>
-    <string name="settingsActivityTextViewBloodInsulinLevelUnits1st">μIU/mL</string>
+    <string name="settingsActivityTextViewBloodInsulinLevelUnits1st">uIU/mL</string>
     <string name="settingsActivityTextViewBloodInsulinLevelUnits2nd">pmol/L</string>
     <string name="playRelaxingMusic">Play Relaxing Music</string>
     <string name="stopRelaxingMusic">Stop Relaxing Music</string>
